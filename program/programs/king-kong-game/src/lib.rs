@@ -298,9 +298,13 @@ pub mod king_kong_game {
         );
         let char_vec: Vec<char> = player_address.to_string().chars().collect();
         let mut number = u32::from(char_vec[0])
+            + u32::from(char_vec[1])
             + u32::from(char_vec[2])
+            + u32::from(char_vec[3])
             + u32::from(char_vec[4])
+            + u32::from(char_vec[5])
             + u32::from(char_vec[6])
+            + u32::from(char_vec[7])
             + u32::from(char_vec[8]);
 
         let mut random = number % 10;
