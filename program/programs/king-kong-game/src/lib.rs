@@ -126,7 +126,7 @@ pub mod king_kong_game {
 
 
         // require!(game_pool.members < 16, GameError::MaxGamePlayerCountExceed);
-        if game_pool.members == 16 {
+        if game_pool.members == 16 {// ========================== must fix 4 => 16
             game_pool.members = 0;
             if game_config_vault.winner != COLLECTION_ADDRESS.parse::<Pubkey>().unwrap() {
                 ctx.accounts.winner_pda.winner_last = 1;
@@ -188,67 +188,69 @@ pub mod king_kong_game {
 
         if game_pool.members == 16 {
             game_config_vault.total_plays += 1;
-            let mut _data =game_pool.banana_usage[0][0] / game_pool.banana_decimal as u64;
-            let mut _data1 = game_pool.banana_usage[1][0] / game_pool.banana_decimal as u64;
+            let mut _data = game_pool.banana_usage[0][0] / game_config_vault.banana_decimal as u64;
+            let mut _data1 =  game_pool.banana_usage[1][0] / game_config_vault.banana_decimal as u64;
             game_pool.play_round(0 as u64, 1 as u64, _data, _data1, program_id, 1 as u8);
-            _data = game_pool.banana_usage[2][0] / game_pool.banana_decimal as u64;
-            _data1 =game_pool.banana_usage[3][0] / game_pool.banana_decimal as u64;
+            _data =  game_pool.banana_usage[2][0] / game_config_vault.banana_decimal as u64;
+            _data1 = game_pool.banana_usage[3][0] / game_config_vault.banana_decimal as u64;
             game_pool.play_round(2 as u64, 3 as u64, _data, _data1, program_id, 1 as u8);
-            _data =game_pool.banana_usage[4][0] / game_pool.banana_decimal as u64;
-            _data1 = game_pool.banana_usage[5][0] / game_pool.banana_decimal as u64;
+          
+            _data = game_pool.banana_usage[4][0] / game_config_vault.banana_decimal as u64;
+            _data1 =  game_pool.banana_usage[5][0] / game_config_vault.banana_decimal as u64;
             game_pool.play_round(4 as u64, 5 as u64, _data, _data1, program_id, 1 as u8);
-            _data = game_pool.banana_usage[6][0] / game_pool.banana_decimal as u64;
-            _data1 = game_pool.banana_usage[7][0] / game_pool.banana_decimal as u64;
+            _data =  game_pool.banana_usage[6][0] / game_config_vault.banana_decimal as u64;
+            _data1 =  game_pool.banana_usage[7][0] / game_config_vault.banana_decimal as u64;
             game_pool.play_round(6 as u64, 7 as u64, _data, _data1, program_id, 1 as u8);
-            _data = game_pool.banana_usage[8][0] / game_pool.banana_decimal as u64;
-            _data1 = game_pool.banana_usage[9][0] / game_pool.banana_decimal as u64;
+            _data =  game_pool.banana_usage[8][0] / game_config_vault.banana_decimal as u64;
+            _data1 =  game_pool.banana_usage[9][0] / game_config_vault.banana_decimal as u64;
             game_pool.play_round(8 as u64, 9 as u64, _data, _data1, program_id, 1 as u8);
-            _data = game_pool.banana_usage[10][0] / game_pool.banana_decimal as u64;
-            _data1 = game_pool.banana_usage[11][0] / game_pool.banana_decimal as u64;
+            _data =  game_pool.banana_usage[10][0] / game_config_vault.banana_decimal as u64;
+            _data1 =  game_pool.banana_usage[11][0] / game_config_vault.banana_decimal as u64;
             game_pool.play_round(10 as u64, 11 as u64, _data, _data1, program_id, 1 as u8);
-            _data = game_pool.banana_usage[12][0] / game_pool.banana_decimal as u64;
-            _data1 = game_pool.banana_usage[13][0] / game_pool.banana_decimal as u64;
+            _data =  game_pool.banana_usage[12][0] / game_config_vault.banana_decimal as u64;
+            _data1 =  game_pool.banana_usage[13][0] / game_config_vault.banana_decimal as u64;
             game_pool.play_round(12 as u64, 13 as u64, _data, _data1, program_id, 1 as u8);
-            _data = game_pool.banana_usage[14][0] / game_pool.banana_decimal as u64;
-            _data1 = game_pool.banana_usage[15][0] / game_pool.banana_decimal as u64;
+            _data =  game_pool.banana_usage[14][0] / game_config_vault.banana_decimal as u64;
+            _data1 =  game_pool.banana_usage[15][0] / game_config_vault.banana_decimal as u64;
             game_pool.play_round(14 as u64, 15 as u64, _data, _data1, program_id, 1 as u8);
+            // ----------------------------------------------------------
             // play round2
-            _data = game_pool.banana_usage[game_pool.round1_result[0] as usize][1] / game_pool.banana_decimal as u64;
-            _data1 = game_pool.banana_usage[game_pool.round1_result[1] as usize][1] / game_pool.banana_decimal as u64;
+            _data = game_pool.banana_usage[game_pool.round1_result[0] as usize][1] / game_config_vault.banana_decimal as u64;
+            _data1 = game_pool.banana_usage[game_pool.round1_result[1] as usize][1] / game_config_vault.banana_decimal as u64;
             let mut _data2 = game_pool.round1_result[0];
             let mut _data3 = game_pool.round1_result[1];
             game_pool.play_round(_data2, _data3, _data, _data1, program_id, 2 as u8);
             _data2 = game_pool.round1_result[2];
             _data3 = game_pool.round1_result[3];
-            _data = game_pool.banana_usage[game_pool.round1_result[2] as usize][1] / game_pool.banana_decimal as u64;
-            _data1 = game_pool.banana_usage[game_pool.round1_result[3] as usize][1] / game_pool.banana_decimal as u64;
+            _data =  game_pool.banana_usage[game_pool.round1_result[2] as usize][1] / game_config_vault.banana_decimal as u64;
+            _data1 =  game_pool.banana_usage[game_pool.round1_result[3] as usize][1] / game_config_vault.banana_decimal as u64;
             game_pool.play_round(_data2, _data3, _data, _data1, program_id, 2 as u8);
             _data2 = game_pool.round1_result[4];
             _data3 = game_pool.round1_result[5];
-            _data = game_pool.banana_usage[game_pool.round1_result[4] as usize][1] / game_pool.banana_decimal as u64;
-            _data1 = ame_pool.banana_usage[game_pool.round1_result[5] as usize][1] / game_pool.banana_decimal as u64;
+            _data =  game_pool.banana_usage[game_pool.round1_result[4] as usize][1] / game_config_vault.banana_decimal as u64;
+            _data1 = game_pool.banana_usage[game_pool.round1_result[5] as usize][1] / game_config_vault.banana_decimal as u64;
             game_pool.play_round(_data2, _data3, _data, _data1, program_id, 2 as u8);
             _data2 = game_pool.round1_result[6];
             _data3 = game_pool.round1_result[7];
-            _data = game_pool.banana_usage[game_pool.round1_result[6] as usize][1]/ game_pool.banana_decimal as u64;
-            _data1 = game_pool.banana_usage[game_pool.round1_result[7] as usize][1] / game_pool.banana_decimal as u64;
+            _data =  game_pool.banana_usage[game_pool.round1_result[6] as usize][1]/ game_config_vault.banana_decimal as u64;
+            _data1 =  game_pool.banana_usage[game_pool.round1_result[7] as usize][1] / game_config_vault.banana_decimal as u64;
             let _ = game_pool.play_round(_data2, _data3, _data, _data1, program_id, 2 as u8);
             // play round 3
             _data2 = game_pool.round2_result[0];
             _data3 = game_pool.round2_result[1];
-            _data =  game_pool.banana_usage[game_pool.round2_result[0] as usize][2] / game_pool.banana_decimal as u64;
-            _data1 = game_pool.banana_usage[game_pool.round2_result[1] as usize][2] / game_pool.banana_decimal as u64;
+            _data =   game_pool.banana_usage[game_pool.round2_result[0] as usize][2] / game_config_vault.banana_decimal as u64;
+            _data1 =  game_pool.banana_usage[game_pool.round2_result[1] as usize][2] / game_config_vault.banana_decimal as u64;
             game_pool.play_round(_data2, _data3, _data, _data1, program_id, 3 as u8);
             _data2 = game_pool.round2_result[2];
             _data3 = game_pool.round2_result[3];
-            _data = game_pool.banana_usage[game_pool.round2_result[2] as usize][2] / game_pool.banana_decimal as u64;
-            _data1 =  game_pool.banana_usage[game_pool.round2_result[3] as usize][2] / game_pool.banana_decimal as u64;
+            _data =  game_pool.banana_usage[game_pool.round2_result[2] as usize][2] / game_config_vault.banana_decimal as u64;
+            _data1 =   game_pool.banana_usage[game_pool.round2_result[3] as usize][2] / game_config_vault.banana_decimal as u64;
             game_pool.play_round(_data2, _data3, _data, _data1, program_id, 3 as u8);
             // play round 4
             _data2 = game_pool.round3_result[0];
             _data3 = game_pool.round3_result[1];
-            _data = game_pool.banana_usage[game_pool.round3_result[0] as usize][3] / game_pool.banana_decimal as u64;
-            _data1 =  game_pool.banana_usage[game_pool.round3_result[1] as usize][3] / game_pool.banana_decimal as u64;
+            _data =  game_pool.banana_usage[game_pool.round3_result[0] as usize][3] / game_config_vault.banana_decimal as u64;
+            _data1 =   game_pool.banana_usage[game_pool.round3_result[1] as usize][3] / game_config_vault.banana_decimal as u64;
             game_pool.play_round(_data2, _data3, _data, _data1, program_id, 4 as u8);
 
             // winner account set
@@ -290,7 +292,7 @@ pub mod king_kong_game {
             &[
                 RANDOM_SEED.as_bytes(),
                 timestamp.to_string().as_bytes(),
-                claimer.to_string().as_bytes(),
+                &claimer.to_bytes(),
             ],
             &king_kong_game::ID,
         );
@@ -333,10 +335,10 @@ pub mod king_kong_game {
 
         // get percent for claim nft (1%)
         number = u32::from(char_vec[0])
-            * u32::from(char_vec[2])
-            * u32::from(char_vec[4])
-            * u32::from(char_vec[6])
-            * u32::from(char_vec[8]);
+            + u32::from(char_vec[2])
+            + u32::from(char_vec[4])
+            + u32::from(char_vec[6])
+            + u32::from(char_vec[8]);
         random = number % 100;
         // claim nft instructions
         if random == 0 && game_config_vault.escrow_nft_nums > 0 {
