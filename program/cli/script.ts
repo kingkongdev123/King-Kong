@@ -16,8 +16,10 @@ import {
     GAME_POOL_SIZE,
     GameConfigPool,
     COLLECTION_ADDRESS,
-    GAME_POOL_ADDRESS
-} from '../lib/types';
+    GAME_POOL_ADDRESS,
+    DAILY_REWARD_DIST_WALLET,
+    GOLD_CHEST_WALLET
+} from './types';
 
 import {
     PublicKey,
@@ -27,7 +29,7 @@ import {
     Transaction,
     Keypair
 } from '@solana/web3.js';
-import { getATokenAccountsNeedCreate, getMetadata, getTokenAccount, isExistAccount, METAPLEX } from '../lib/utils';
+import { getATokenAccountsNeedCreate, getMetadata, getTokenAccount, isExistAccount, METAPLEX } from './utils';
 import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
 
 export const createGamePoolTx = async (
@@ -292,6 +294,8 @@ export const gamePlayTx = async (
             userTokenAccount: userTokenAccount,
             escrowTokenAccount: escrowTokenAccount,
             winnerPda: winnerPDA,
+            treasury_wallet1: DAILY_REWARD_DIST_WALLET,
+            treasury_wallet2: GOLD_CHEST_WALLET,
             tokenProgram: TOKEN_PROGRAM_ID,
             systemProgram: SystemProgram.programId,
         }
@@ -434,11 +438,11 @@ export const createBuyTokenTx = async (
         [Buffer.from(USER_DATA_SEED), buyer.toBuffer()],
         PROGRAM_ID,
     );
-    let gamePool = await anchor.web3.PublicKey.createWithSeed(
-        new PublicKey(GAME_POOL_ADDRESS),
-        GAME_VAULT_SEED,
-        PROGRAM_ID,
-    );
+    // let gamePool = await anchor.web3.PublicKey.createWithSeed(
+    //     new PublicKey(GAME_POOL_ADDRESS),
+    //     GAME_VAULT_SEED,
+    //     PROGRAM_ID,
+    // );
 
 
     let ret2 = await getATokenAccountsNeedCreate(
@@ -473,7 +477,6 @@ export const createBuyTokenTx = async (
     console.log('escrowVault = ', escrowVault.toBase58());
     console.log("escrowVault BNN Account = ", ret1.destinationAccounts[0].toBase58());
     console.log(
-        gamePool.toBase58(),
         escrowVault.toBase58(),
         userPool.toBase58(),
         userTokenAccount.toBase58(),
@@ -488,7 +491,6 @@ export const createBuyTokenTx = async (
         accounts: {
             buyer: buyer,
             gameConfigVault: gameConfigVault,
-            gamePool: gamePool,
             escrowVault: escrowVault,
             userPool: userPool,
             userTokenAccount: userTokenAccount,
@@ -575,7 +577,7 @@ export const getGameState = async (program: anchor.Program): Promise<any | null>
             winner: winner,
             globalAuthority: globalAuthority.toBase58(),
             gameConfigVault: gameConfigVault.toBase58(),
-            gamePool: gamePool.toBase58(),
+            // gamePool: gamePool.toBase58(),
             escrowVault: escrowVault.toBase58(),
             escrowNftMints: escrowNftMints
         };

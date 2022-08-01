@@ -143,16 +143,43 @@ pub mod king_kong_game {
         }
         require!(exist == 0, GameError::GamePlayerAlreadyAdded);
 
-        // entry fee & tx fee transfer
+        // entry fee transfer
         invoke(
             &system_instruction::transfer(
                 ctx.accounts.owner.key,
                 ctx.accounts.escrow_vault.key,
-                game_config_vault.entry_fee * (100 + game_config_vault.tx_fee) / 100,
+                game_config_vault.entry_fee,
             ),
             &[
                 ctx.accounts.owner.to_account_info().clone(),
                 ctx.accounts.escrow_vault.to_account_info().clone(),
+                ctx.accounts.system_program.to_account_info().clone(),
+            ],
+        )?;
+
+        // transfer 75% of tx fee to daily distribute wallet
+        invoke(
+            &system_instruction::transfer(
+                ctx.accounts.owner.key, 
+                ctx.accounts.treasury_wallet1.to_account_info().key, 
+                game_config_vault.entry_fee*game_config_vault.tx_fee*3/400
+            ),
+            &[
+                ctx.accounts.owner.to_account_info().clone(),
+                ctx.accounts.treasury_wallet1.to_account_info().clone(),
+                ctx.accounts.system_program.to_account_info().clone(),
+            ],
+        )?;
+        // transfer 25% of tx fee to gold chest wallet
+        invoke(
+            &system_instruction::transfer(
+                ctx.accounts.owner.key, 
+                ctx.accounts.treasury_wallet2.to_account_info().key, 
+                game_config_vault.entry_fee*game_config_vault.tx_fee/400
+            ),
+            &[
+                ctx.accounts.owner.to_account_info().clone(),
+                ctx.accounts.treasury_wallet2.to_account_info().clone(),
                 ctx.accounts.system_program.to_account_info().clone(),
             ],
         )?;
@@ -180,8 +207,10 @@ pub mod king_kong_game {
         // register game play data to game_pool
         let index: usize = game_pool.members as usize;
         game_pool.players[index] = player;
-        game_pool.banana_usage[index] =
-            [round1_banana, round2_banana, round3_banana, round4_banana];
+        game_pool.banana_usage[index][0] = round1_banana;
+        game_pool.banana_usage[index][1] = round2_banana;
+        game_pool.banana_usage[index][2] = round3_banana;
+        game_pool.banana_usage[index][3] = round4_banana;
 
         game_pool.members += 1;
         let program_id = king_kong_game::ID;
@@ -382,6 +411,8 @@ pub mod king_kong_game {
                 ],
                 signer,
             )?;
+            user_pool.winned_nft += 1;
+
 
         }
 
@@ -437,7 +468,6 @@ pub mod king_kong_game {
         let escrow_token_account = &mut ctx.accounts.escrow_token_account;
         let user_token_account = &mut ctx.accounts.user_token_account;
         let game_config_vault = &mut ctx.accounts.game_config_vault;
-        let mut game_pool = ctx.accounts.game_pool.load_mut()?;
         let user_pool = &mut ctx.accounts.user_pool;
         require!(
             escrow_token_account.amount >= token_amount,
@@ -1115,6 +1145,21 @@ pub struct PlayGame<'info> {
         bump
     )]
     pub winner_pda: Account<'info, UserPool>,
+
+    #[account(
+        mut,
+        constraint = treasury_wallet1.key() == DAILY_REWARD_DIST_WALLET.parse::<Pubkey>().unwrap(),
+    )]
+    /// CHECK: This is not dangerous because we don't read or write from this account
+    pub treasury_wallet1: AccountInfo<'info>,
+
+    #[account(
+        mut,
+        constraint = treasury_wallet2.key() == GOLD_CHEST_WALLET.parse::<Pubkey>().unwrap(),
+    )]
+    /// CHECK: This is not dangerous because we don't read or write from this account
+    pub treasury_wallet2: AccountInfo<'info>,
+
     pub token_program: Program<'info, Token>,
     pub system_program: Program<'info, System>,
 }
@@ -1186,10 +1231,6 @@ pub struct BuyToken<'info> {
     )]
     pub game_config_vault: Box<Account<'info, GameConfigPool>>,
     #[account(
-        mut
-    )]
-    pub game_pool: AccountLoader<'info, GamePool>,
-    #[account(
         mut,
         seeds = [ESCROW_VAULT_SEED.as_ref()],
         bump,
@@ -1217,6 +1258,3 @@ pub struct BuyToken<'info> {
     pub token_program: Program<'info, Token>,
     pub system_program: Program<'info, System>,
 }
-
-
-

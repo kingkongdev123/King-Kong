@@ -229,6 +229,16 @@ export type KingKongGame = {
           "isSigner": false
         },
         {
+          "name": "treasuryWallet1",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "treasuryWallet2",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
           "name": "tokenProgram",
           "isMut": false,
           "isSigner": false
@@ -354,11 +364,6 @@ export type KingKongGame = {
         },
         {
           "name": "gameConfigVault",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "gamePool",
           "isMut": true,
           "isSigner": false
         },
@@ -1254,6 +1259,16 @@ export const IDL: KingKongGame = {
           "isSigner": false
         },
         {
+          "name": "treasuryWallet1",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "treasuryWallet2",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
           "name": "tokenProgram",
           "isMut": false,
           "isSigner": false
@@ -1379,11 +1394,6 @@ export const IDL: KingKongGame = {
         },
         {
           "name": "gameConfigVault",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "gamePool",
           "isMut": true,
           "isSigner": false
         },

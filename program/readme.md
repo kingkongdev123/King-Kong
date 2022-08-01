@@ -1,4 +1,5 @@
 # KingKong-Game-Contract
+
 A Battle Royal NFT based Smart Contract on Solana
 
 ## Program Deployment
@@ -8,8 +9,14 @@ A Battle Royal NFT based Smart Contract on Solana
 - Confirm Network cluster in `Anchor.toml` file : f.e. `[programs.devnet]`, `cluster = "devnet"`
 - Confirm deploy authority wallet keypair location : f.e. `wallet = "/home/ubuntu/.config/solana/id.json"
 - Configure solana cli with deploy authority keypair and deploying cluster : f.e. `solana config set -h`
+- Confirm some of the constants for the game in the `/programs/king-kong-game/src/constants.rs` \
+`BANANA_TOKEN_MINT_PUBKEY` : banana token mint address <br />
+`COLLECTION_ADDRESS` : collection creator address to verify king-kong collection and is used for default game winner<br />
+`DAILY_REWARD_DIST_WALLET` : treasury wallet address for distributing daily game reward to king-kong holders around every 00:00 on UTC. auto-distributing is performed on node backend.<br />
+must be matched to wallet address on the backend. <br />
+`GOLD_CHEST_WALLET` : gold chest wallet address.
 - Build program with `anchor build`
-- Copy and paste the result deploy scripts from Build terminal message : f.e. `solana program deploy /home/ubuntu/project/target/deploy/mds_marketplace.so`
+- Copy and paste the result deploy scripts from Build terminal message : f.e. `solana program deploy /home/ubuntu/solana/king-kong-game/king-kong-game/target/deploy/king_kong_game.so`
 
 ### To Change Program Address
 
@@ -135,7 +142,7 @@ export const buyBnn = async (
 
 - Play game with `playGame` command
 `playGame` command has the following params <br />
-Amount 0 is used in each round by default<br/>
+Amount 0 of banana tokens is used in each round by default<br/>
 ```ts
 /**
  * Buy banana tokens with sol to play a game
