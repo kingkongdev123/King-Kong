@@ -37,7 +37,7 @@ export interface GamePoolData {
 }
 
 export interface UserPool {
-  // 8 + 74
+  // 8 + 110
   address: PublicKey,         // 32
   playedVolume: anchor.BN,   // 8
   playedNums: anchor.BN,           // 8
@@ -48,4 +48,10 @@ export interface UserPool {
   winnedBanana: anchor.BN,         // 8
   winnedNft: anchor.BN,            // 8
   winnerLast: number,           // 1
+  xp: anchor.BN,                // 8
+  xpreward1claimed: number,     // 1
+  xpreward2claimed: number,     // 1
+  xpreward3claimed: number,     // 1
+  xpreward4claimed: number,     // 1
+  xpreward5claimed: number,     // 1
 }

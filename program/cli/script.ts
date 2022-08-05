@@ -32,6 +32,79 @@ import {
 import { getATokenAccountsNeedCreate, getMetadata, getTokenAccount, isExistAccount, METAPLEX } from './utils';
 import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
 
+
+export const createClaimXprewardTx = async (
+    xp: number,
+    payer: PublicKey,
+    token_mint: PublicKey,
+    program: anchor.Program,
+    connection: Connection
+) => {
+
+    const [gameConfigVault, game_config_bump] = await PublicKey.findProgramAddress(
+        [Buffer.from(GAME_CONFIGVAULT_SEED)],
+        PROGRAM_ID,
+    );
+    const [escrowVault, escrow_bump] = await PublicKey.findProgramAddress(
+        [Buffer.from(ESCROW_VAULT_SEED)],
+        PROGRAM_ID,
+    );
+    const [userPool, user_bump] = await PublicKey.findProgramAddress(
+        [Buffer.from(USER_DATA_SEED), payer.toBuffer()],
+        PROGRAM_ID,
+    );
+    // get user token account
+    let ret1 = await getATokenAccountsNeedCreate(
+        connection,
+        payer,
+        payer,
+        [token_mint]
+    );
+
+    let tx = new Transaction();
+    let userTokenAccount = ret1.destinationAccounts[0];
+    if (!await isExistAccount(userTokenAccount, connection)) {
+        try {
+            let accountOfBNN = await getTokenAccount(token_mint, payer, connection);
+            userTokenAccount = accountOfBNN;
+        } catch (e) {
+            tx.add(ret1.instructions[0]);
+            console.log(e, ": error");
+        }
+    }
+    console.log("User BNN Account = ", userTokenAccount.toBase58());
+
+    // get escrow vault token account
+
+    let ret2 = await getATokenAccountsNeedCreate(
+        connection,
+        payer,
+        escrowVault,
+        [token_mint]
+    );
+    let escrowTokenAccount = ret2.destinationAccounts[0];
+    console.log('escrowVault = ', escrowVault.toBase58());
+    console.log("escrowVault BNN Account = ", ret2.destinationAccounts[0].toBase58());
+
+    if (ret2.instructions.length > 0) ret2.instructions.map((ix) => tx.add(ix));
+
+    tx.add(program.instruction.claimXpreward(
+        game_config_bump, escrow_bump, user_bump, new anchor.BN(xp), {
+        accounts: {
+            owner: payer,
+            gameConfigVault: gameConfigVault,
+            escrowVault: escrowVault,
+            userPool: userPool,
+            userTokenAccount: userTokenAccount,
+            escrowTokenAccount: escrowTokenAccount,
+            tokenProgram: TOKEN_PROGRAM_ID,
+        }
+    }
+    ));
+    return tx;
+
+}
+
 export const createGamePoolTx = async (
     userAddress: PublicKey,
     program: anchor.Program,
@@ -606,6 +679,12 @@ export const getUserState = async (userAddress: PublicKey, program: anchor.Progr
         let winnedBanana = (userState.winnedBanana as any).toNumber();
         let winnedNft = (userState.winnedNft as any).toNumber();
         let winnerLast = (userState.winnerLast as any);
+        let xpreward1Claimed = userState.xpreward1Claimed;
+        let xpreward2Claimed = userState.xpreward2Claimed;
+        let xpreward3Claimed = userState.xpreward3Claimed;
+        let xpreward4Claimed = userState.xpreward4Claimed;
+        let xpreward5Claimed = userState.xpreward5Claimed;
+
         console.log(address, ":: user address")
         console.log(playedVolume, ":: playedVolume")
         console.log(playedNums, ":: playedNums")
@@ -616,6 +695,12 @@ export const getUserState = async (userAddress: PublicKey, program: anchor.Progr
         console.log(winnedBanana, ":: winnedBanana")
         console.log(winnedNft, ":: winnedNft")
         console.log(winnerLast, ":: winnerLast")
+        console.log(xpreward1Claimed, ":: xpreward1Claimed")
+        console.log(xpreward2Claimed, ":: xpreward2Claimed")
+        console.log(xpreward3Claimed, ":: xpreward3Claimed")
+        console.log(xpreward4Claimed, ":: xpreward4Claimed")
+        console.log(xpreward5Claimed, ":: xpreward5Claimed")
+
         return {
             address: address,
             playedVolume: playedVolume,
@@ -626,7 +711,12 @@ export const getUserState = async (userAddress: PublicKey, program: anchor.Progr
             winnedNums: winnedNums,
             winnedBanana: winnedBanana,
             winnedNft: winnedNft,
-            winnerLast: winnerLast
+            winnerLast: winnerLast,
+            xpreward1Claimed: xpreward1Claimed,
+            xpreward2Claimed: xpreward2Claimed,
+            xpreward3Claimed: xpreward3Claimed,
+            xpreward4Claimed: xpreward4Claimed,
+            xpreward5Claimed: xpreward5Claimed,
         };
     } catch {
         return null;

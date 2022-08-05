@@ -25,7 +25,7 @@ import {
     Transaction,
     Keypair
 } from '@solana/web3.js';
-import { createBuyTokenTx, createClaimBananaForNftHoldersTx, createDepositNftEscrowTx, createGamePoolTx, createInitGamePoolTx, createInitializeTx, createInitUserTx, createWithdrawEscrowNftTx, createWithdrawEscrowVolumeTx, gamePlayTx, getClaimRewardTx, getGameState, getUserState } from '../cli/scripts';
+import { createBuyTokenTx, createClaimBananaForNftHoldersTx, createClaimXprewardTx, createDepositNftEscrowTx, createGamePoolTx, createInitGamePoolTx, createInitializeTx, createInitUserTx, createWithdrawEscrowNftTx, createWithdrawEscrowVolumeTx, gamePlayTx, getClaimRewardTx, getGameState, getUserState } from './script';
 
 let solConnection = null;
 let payer = null;
@@ -60,20 +60,38 @@ const main = async () => {
     // await initGamePool(100000000, 4, 1600000000, "AsACVnuMa5jpmfp3BjArmb2qWg5A6HBkuXePwT37RrLY", 110000000, 1000000000, 1);
     // await initUserPool();
 
-    // await playGame(0, 0, 0, 0);
+    await playGame(1, 0, 0, 0);
     // await buyBnn(1000000000)
 
-    // await depositNftEscrow(new PublicKey("3rKjzUqCg2R3vzS4b5waXNew5jwe7hKWB9iZjp2k2XXW"));
+    // await depositNftEscrow(new PublicKey("5J6UyFFr3xjidyzjKfmDQxL8oaqsVV7rUGQgGTBXYk59"));
     // await withdrawEscrowVolume();
     // await withdrawEscrowNft();
-    // await claimBananaForNftHolders(new PublicKey("5J6UyFFr3xjidyzjKfmDQxL8oaqsVV7rUGQgGTBXYk59"));
+    // await claimBananaForNftHolders(new PublicKey("3rKjzUqCg2R3vzS4b5waXNew5jwe7hKWB9iZjp2k2XXW"));
 
-    await claimReward();
+    // await claimReward();
 
+    // await claimXpreward(500);
 
     await getGameState(program)
     // await getUserState(payer.publicKey, program);
 }
+
+
+export const claimXpreward = async (
+    xp: number
+) => {
+    let token_mint = BANANA_TOKEN_MINT;
+
+    const tx = await createClaimXprewardTx(xp, payer.publicKey, token_mint, program, solConnection);
+    const { blockhash } = await solConnection.getRecentBlockhash('confirmed');
+    tx.feePayer = payer.publicKey;
+    tx.recentBlockhash = blockhash;
+    payer.signTransaction(tx);
+    let txId = await solConnection.sendTransaction(tx, [(payer as NodeWallet).payer]);
+    await solConnection.confirmTransaction(txId, "confirmed");
+    console.log("txHash =", txId);
+}
+
 export const initProject = async (
 ) => {
     const tx = await createInitializeTx(payer.publicKey, program);

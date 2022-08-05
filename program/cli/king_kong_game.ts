@@ -281,6 +281,64 @@ export type KingKongGame = {
       ]
     },
     {
+      "name": "claimXpreward",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "gameConfigVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userPool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "gameConfigBump",
+          "type": "u8"
+        },
+        {
+          "name": "escrowBump",
+          "type": "u8"
+        },
+        {
+          "name": "userBump",
+          "type": "u8"
+        },
+        {
+          "name": "xp",
+          "type": "u64"
+        }
+      ]
+    },
+    {
       "name": "claimReward",
       "accounts": [
         {
@@ -894,6 +952,30 @@ export type KingKongGame = {
           {
             "name": "winnerLast",
             "type": "u8"
+          },
+          {
+            "name": "xp",
+            "type": "u64"
+          },
+          {
+            "name": "xpreward1Claimed",
+            "type": "u8"
+          },
+          {
+            "name": "xpreward2Claimed",
+            "type": "u8"
+          },
+          {
+            "name": "xpreward3Claimed",
+            "type": "u8"
+          },
+          {
+            "name": "xpreward4Claimed",
+            "type": "u8"
+          },
+          {
+            "name": "xpreward5Claimed",
+            "type": "u8"
           }
         ]
       }
@@ -1022,6 +1104,16 @@ export type KingKongGame = {
     },
     {
       "code": 6024,
+      "name": "InvalidLowXp",
+      "msg": "Too Low XP"
+    },
+    {
+      "code": 6025,
+      "name": "InvalidXPClaim",
+      "msg": "Invalid XP Claim"
+    },
+    {
+      "code": 6026,
       "name": "InvalidOwner",
       "msg": "Invalid Owner"
     }
@@ -1311,6 +1403,64 @@ export const IDL: KingKongGame = {
       ]
     },
     {
+      "name": "claimXpreward",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "gameConfigVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userPool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "gameConfigBump",
+          "type": "u8"
+        },
+        {
+          "name": "escrowBump",
+          "type": "u8"
+        },
+        {
+          "name": "userBump",
+          "type": "u8"
+        },
+        {
+          "name": "xp",
+          "type": "u64"
+        }
+      ]
+    },
+    {
       "name": "claimReward",
       "accounts": [
         {
@@ -1924,6 +2074,30 @@ export const IDL: KingKongGame = {
           {
             "name": "winnerLast",
             "type": "u8"
+          },
+          {
+            "name": "xp",
+            "type": "u64"
+          },
+          {
+            "name": "xpreward1Claimed",
+            "type": "u8"
+          },
+          {
+            "name": "xpreward2Claimed",
+            "type": "u8"
+          },
+          {
+            "name": "xpreward3Claimed",
+            "type": "u8"
+          },
+          {
+            "name": "xpreward4Claimed",
+            "type": "u8"
+          },
+          {
+            "name": "xpreward5Claimed",
+            "type": "u8"
           }
         ]
       }
@@ -2052,6 +2226,16 @@ export const IDL: KingKongGame = {
     },
     {
       "code": 6024,
+      "name": "InvalidLowXp",
+      "msg": "Too Low XP"
+    },
+    {
+      "code": 6025,
+      "name": "InvalidXPClaim",
+      "msg": "Invalid XP Claim"
+    },
+    {
+      "code": 6026,
       "name": "InvalidOwner",
       "msg": "Invalid Owner"
     }

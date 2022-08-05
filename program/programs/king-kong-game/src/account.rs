@@ -47,7 +47,7 @@ pub struct GamePool {
 #[account]
 #[derive(Default)]
 pub struct UserPool {
-    // 8 + 97 = 105
+    // 8 + 110 = 118
     pub address: Pubkey,    // 32
     pub played_volume: u64, // 8
     pub played_nums: u64,   // 8
@@ -58,6 +58,12 @@ pub struct UserPool {
     pub winned_banana: u64, // 8
     pub winned_nft: u64,    // 8
     pub winner_last: u8,    // 1
+    pub xp: u64,                // 8
+    pub xpreward1_claimed: u8,  // 1
+    pub xpreward2_claimed: u8,  // 1
+    pub xpreward3_claimed: u8,  // 1
+    pub xpreward4_claimed: u8,  // 1
+    pub xpreward5_claimed: u8,  // 1
 }
 
 impl GamePool {

@@ -289,6 +289,90 @@ pub mod king_kong_game {
         Ok(())
     }
 
+    pub fn claim_xpreward(
+        ctx: Context<ClaimXpreward>,
+        _game_config_bump: u8,
+        _escrow_bump: u8,
+        _user_bump: u8,
+        xp: u64,
+    ) -> Result<()> {
+        let mut claim_amount: u64 = 0;
+        let user_pool = &mut ctx.accounts.user_pool;
+        let game_config_vault = &mut ctx.accounts.game_config_vault;
+
+        require!(xp>=500, GameError::InvalidLowXp);
+
+        if user_pool.xpreward1_claimed == 0 && user_pool.played_nums>=10{
+            require!(
+                ctx.accounts.escrow_token_account.amount >= game_config_vault.banana_decimal * 5,
+                GameError::InsufficientEscrowVaultTokenAmount
+            );
+
+            claim_amount = game_config_vault.banana_decimal * 5;
+        } else if user_pool.xpreward2_claimed == 0 && xp>=2500 && user_pool.played_nums>=50 {
+            require!(
+                ctx.accounts.escrow_token_account.amount >= game_config_vault.banana_decimal * 10,
+                GameError::InsufficientEscrowVaultTokenAmount
+            );
+
+            claim_amount = game_config_vault.banana_decimal * 10;
+        } else if user_pool.xpreward3_claimed == 0 && xp>=5000  && user_pool.played_nums>=100 {
+            require!(
+                ctx.accounts.escrow_token_account.amount >= game_config_vault.banana_decimal * 20,
+                GameError::InsufficientEscrowVaultTokenAmount
+            );
+
+            claim_amount = game_config_vault.banana_decimal * 20;
+        } else if user_pool.xpreward4_claimed == 0 && xp >=10000 && user_pool.played_nums>=200 {
+            require!(
+                ctx.accounts.escrow_token_account.amount >= game_config_vault.banana_decimal * 50,
+                GameError::InsufficientEscrowVaultTokenAmount
+            );
+
+            claim_amount = game_config_vault.banana_decimal * 50;
+        } else if user_pool.xpreward5_claimed == 0 && xp >=50000 && user_pool.played_nums>=1000 {
+            require!(
+                ctx.accounts.escrow_token_account.amount >= game_config_vault.banana_decimal * 100,
+                GameError::InsufficientEscrowVaultTokenAmount
+            );
+            claim_amount = game_config_vault.banana_decimal * 100;
+        } 
+
+        require!(claim_amount>0, GameError::InvalidXPClaim);
+
+        // transfer reward token
+        let seeds = &[ESCROW_VAULT_SEED.as_bytes(), &[_escrow_bump]];
+        let signer = &[&seeds[..]];
+        
+        let cpi_accounts = Transfer {
+            from: ctx.accounts.escrow_token_account.to_account_info().clone(),
+            to: ctx.accounts.user_token_account.to_account_info().clone(),
+            authority: ctx.accounts.escrow_vault.to_account_info(),
+        };
+        token::transfer(
+            CpiContext::new_with_signer(
+                ctx.accounts.token_program.clone().to_account_info(),
+                cpi_accounts,
+                signer,
+            ),
+            claim_amount,
+        )?;
+
+        if claim_amount == game_config_vault.banana_decimal * 5 {
+            user_pool.xpreward1_claimed = 1;
+        } else if claim_amount == game_config_vault.banana_decimal * 10 {
+            user_pool.xpreward2_claimed = 1;
+        } else if claim_amount == game_config_vault.banana_decimal * 20 {
+            user_pool.xpreward3_claimed = 1;
+        } else if claim_amount == game_config_vault.banana_decimal * 50 {
+            user_pool.xpreward4_claimed = 1;
+        } else if claim_amount == game_config_vault.banana_decimal * 100 {
+            user_pool.xpreward5_claimed = 1;
+        }
+
+        Ok(())
+    }
+
     pub fn claim_reward(
         ctx: Context<ClaimReward>,
         _game_config_bump: u8,
@@ -1051,7 +1135,7 @@ pub struct CreateGamePool<'info> {
         init,
         seeds = [USER_DATA_SEED.as_ref(), COLLECTION_ADDRESS.parse::<Pubkey>().unwrap().as_ref()],
         bump,
-        space = 105,
+        space = 118,
         payer = admin,
     )]
     pub winner_pda: Account<'info, UserPool>,
@@ -1092,7 +1176,7 @@ pub struct InitUserPool<'info> {
         seeds = [USER_DATA_SEED.as_ref(), owner.key().as_ref()],
         bump,
         payer=owner,
-        space=105
+        space=118
     )]
     pub user_pool: Account<'info, UserPool>,
     pub system_program: Program<'info, System>,
@@ -1162,6 +1246,44 @@ pub struct PlayGame<'info> {
 
     pub token_program: Program<'info, Token>,
     pub system_program: Program<'info, System>,
+}
+#[derive(Accounts)]
+#[instruction(bump: u8)]
+pub struct ClaimXpreward<'info> {
+    #[account(mut)]
+    pub owner: Signer<'info>,
+    #[account(
+        mut,
+        seeds = [GAME_CONFIGVAULT_SEED.as_ref()],
+        bump,
+    )]
+    pub game_config_vault: Box<Account<'info, GameConfigPool>>,
+    #[account(
+        mut,
+        seeds = [ESCROW_VAULT_SEED.as_ref()],
+        bump,
+    )]
+    /// CHECK: This is not dangerous because we don't read or write from this account
+    pub escrow_vault: AccountInfo<'info>,
+    #[account(
+        mut,
+        seeds = [USER_DATA_SEED.as_ref(), owner.key().as_ref()],
+        bump,
+    )]
+    pub user_pool: Account<'info, UserPool>,
+    #[account(
+        mut,
+        constraint = user_token_account.mint == game_config_vault.banana_mint,
+        constraint = user_token_account.owner == *owner.key,
+    )]
+    pub user_token_account: Box<Account<'info, TokenAccount>>,
+    #[account(
+        mut,
+        constraint = escrow_token_account.mint == game_config_vault.banana_mint,
+        constraint = escrow_token_account.owner == *escrow_vault.key,
+    )]
+    pub escrow_token_account: Box<Account<'info, TokenAccount>>,
+    pub token_program: Program<'info, Token>,
 }
 
 #[derive(Accounts)]

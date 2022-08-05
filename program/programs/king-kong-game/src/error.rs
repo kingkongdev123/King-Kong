@@ -67,6 +67,10 @@ pub enum GameError {
     GamePlayerAlreadyAdded,
     #[msg("Invalid Claim Time")]
     InvalidClaimTime,
+    #[msg("Too Low XP")]
+    InvalidLowXp,
+    #[msg("Invalid XP Claim")]
+    InvalidXPClaim,
     // 0x1771
     #[msg("Invalid Owner")]
     InvalidOwner,

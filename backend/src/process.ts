@@ -203,6 +203,7 @@ export const playGameEventHandler = async (sign: string, io: Server) => {
         let round3Result: number[] = [];
         let round4Result: number[] = [];
         let players: string[] = [];
+        let playerXp = new Map<string, number>();
 
         console.log(gamePool, ">>> game Pool info");
         console.log(gamePool.bananaUsage, ">>> banana usage")
@@ -215,6 +216,7 @@ export const playGameEventHandler = async (sign: string, io: Server) => {
                 console.log(bananaUsage, ">> banana usage")
             }
             players.push(gamePool.players[i].toBase58());
+            playerXp.set(gamePool.players[i].toBase58(), 0);
 
         }
         for (let i = 0; i < gamePool.round1Result.length; i++) {
@@ -319,6 +321,26 @@ export const playGameEventHandler = async (sign: string, io: Server) => {
             console.log(">> one game ended");
 
             // fetch user pool data
+
+
+            playerXp.set(players[round4Result[0]], 50);
+            for (let i = 0; i < round3Result.length; i++) {
+                const player = players[round3Result[i]];
+                if ((playerXp.get(player) as number) == 0) playerXp.set(player, 30)
+            }
+            for (let i = 0; i < round2Result.length; i++) {
+                const player = players[round2Result[i]];
+                if ((playerXp.get(player) as number) == 0) playerXp.set(player, 20)
+            }
+            for (let i = 0; i < round1Result.length; i++) {
+                const player = players[round1Result[i]];
+                if ((playerXp.get(player) as number) == 0) playerXp.set(player, 10)
+            }
+            for (let i = 0; i < players.length; i++) {
+                const player = players[i];
+                if ((playerXp.get(player) as number) == 0) playerXp.set(player, 5)
+            }
+
             let userStats = loadDump('/userStats.json');
             if (!userStats) userStats = {};
             await Promise.allSettled(
@@ -349,7 +371,8 @@ export const playGameEventHandler = async (sign: string, io: Server) => {
                         winnedNums: winnedNums,
                         winnedBanana: winnedBanana,
                         winnedNft: winnedNft,
-                        winnerLast: winnerLast
+                        winnerLast: winnerLast,
+                        xp: userStats[address] ? userStats[address].xp + playerXp.get(address) : playerXp.get(address)
                     }
 
                 })
