@@ -1,0 +1,255 @@
+.container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.gameMark {
+    position: absolute;
+    right: calc(50% - 70px);
+    top: 30px;
+    width: 140px;
+    
+}
+
+.prizeBox {
+    position: absolute;
+    right: calc(50% - 80px);
+    top: calc(50% - 80px);
+    width: 160px;
+    height: 160px;
+    z-index: 10;
+}
+
+.leftPanel {
+    position: absolute;
+    height: 100%;
+    right: 50%;
+    top: 0;
+}
+
+.rightPanel {
+    position: absolute;
+    height: 100%;
+    left: 50%;
+    top: 0;
+}
+
+.leftR4Line {
+    height: 4px;
+    width: 10px;
+    position: absolute;
+    right: calc(50% + 80px);
+    top: calc(50% - 2px);
+    background: rgba(13, 34, 44, 0.6);;
+}
+
+.lhsLine {
+    position: absolute;
+    top: 50px;
+    right: calc(50% + 80px);
+    height: 500px;
+}
+
+.rhsLine {
+    position: absolute;
+    top: 50px;
+    left: calc(50% + 80px);
+    height: 500px;
+}
+
+.r4Player {
+    position: absolute;
+    width: 94px;
+    height: 94px;
+    background: linear-gradient(0deg, rgba(173, 173, 173, 0.2), rgba(173, 173, 173, 0.2)), rgba(0, 0, 0, 0.3);
+    border: 6px solid #CCCCCC;
+    border-radius: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.r4Player1 {
+    top: calc(50% - 52px);
+    right: calc(50% + 90px);
+}
+
+.r4Player2 {
+    top: calc(50% - 52px);
+    left: calc(50% + 90px);
+}
+
+.r3Player {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(0deg, rgba(173, 173, 173, 0.2), rgba(173, 173, 173, 0.2)), rgba(0, 0, 0, 0.3);
+    border: 4px solid #CCCCCC;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.r3PlayerL1 {
+    top: calc(50% - 173px);
+    right: calc(50% + 185px);
+}
+
+.r3PlayerR1 {
+    top: calc(50% - 173px);
+    left: calc(50% + 185px);
+}
+
+.r3PlayerL2 {
+    top: calc(50% + 108px);
+    right: calc(50% + 185px);
+}
+
+.r3PlayerR2 {
+    top: calc(50% + 108px);
+    left: calc(50% + 185px);
+}
+
+.r2PlayerL1 {
+    top: calc(50% - 245px);
+    right: calc(50% + 291px);
+}
+
+.r2PlayerR1 {
+    top: calc(50% - 245px);
+    left: calc(50% + 291px);
+}
+
+.r2PlayerL2 {
+    top: calc(50% - 105px);
+    right: calc(50% + 291px);
+}
+
+.r2PlayerR2 {
+    top: calc(50% - 105px);
+    left: calc(50% + 291px);
+}
+
+.r2PlayerL3 {
+    top: calc(50% + 35px);
+    right: calc(50% + 291px);
+}
+
+.r2PlayerR3 {
+    top: calc(50% + 35px);
+    left: calc(50% + 291px);
+}
+
+.r2PlayerL4 {
+    top: calc(50% + 175px);
+    right: calc(50% + 291px);
+}
+
+.r2PlayerR4 {
+    top: calc(50% + 175px);
+    left: calc(50% + 291px);
+}
+
+.r4LockIcon {
+    width: 44px;
+}
+
+.r3LockIcon {
+    width: 24px;
+}
+
+.r1Avatar {
+    width: 100%;
+    height: 100%;
+}
+
+.r1Player {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.r1PlayerL1 {
+    top: calc(50% - 285px);
+    right: calc(50% + 425px);
+}
+
+.r1PlayerL2 {
+    top: calc(50% - 215px);
+    right: calc(50% + 425px);
+}
+
+.r1PlayerL3 {
+    top: calc(50% - 145px);
+    right: calc(50% + 395px);
+}
+
+.r1PlayerL4 {
+    top: calc(50% - 75px);
+    right: calc(50% + 395px);
+}
+
+.r1PlayerL5 {
+    top: calc(50% + 5px);
+    right: calc(50% + 425px);
+}
+
+.r1PlayerL6 {
+    top: calc(50% + 75px);
+    right: calc(50% + 425px);
+}
+
+.r1PlayerL7 {
+    top: calc(50% + 145px);
+    right: calc(50% + 395px);
+}
+
+.r1PlayerL8 {
+    top: calc(50% + 215px);
+    right: calc(50% + 395px);
+}
+
+.r1PlayerR1 {
+    top: calc(50% - 285px);
+    left: calc(50% + 425px);
+}
+
+.r1PlayerR2 {
+    top: calc(50% - 215px);
+    left: calc(50% + 425px);
+}
+
+.r1PlayerR3 {
+    top: calc(50% - 145px);
+    left: calc(50% + 395px);
+}
+
+.r1PlayerR4 {
+    top: calc(50% - 75px);
+    left: calc(50% + 395px);
+}
+
+.r1PlayerR5 {
+    top: calc(50% + 5px);
+    left: calc(50% + 425px);
+}
+
+.r1PlayerR6 {
+    top: calc(50% + 75px);
+    left: calc(50% + 425px);
+}
+
+.r1PlayerR7 {
+    top: calc(50% + 145px);
+    left: calc(50% + 395px);
+}
+
+.r1PlayerR8 {
+    top: calc(50% + 215px);
+    left: calc(50% + 395px);
+}

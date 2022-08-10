@@ -1,0 +1,133 @@
+
+.lCharacter {
+    position: absolute;
+    
+    right: calc(50% + 15px);
+    bottom: -25px;
+    height: 100%;
+    z-index: 10;
+}
+
+.rCharacter {
+    position: absolute;
+    
+    left: calc(50% + 15px);
+    bottom: -25px;
+    height: 100%;
+    z-index: 10;
+}
+
+.cLightning {
+    margin: auto;
+    height: 100%;
+    z-index: 20;
+}
+
+.lLightning {
+    position: absolute;
+    z-index: 20;
+    height: calc(100% + 15px);
+    top: -15px;
+    right: calc(50% + 135px);
+}
+
+.rLightning {
+    position: absolute;
+    z-index: 20;
+    height: calc(100% + 30px);
+    top: -15px;
+    left: calc(50% + 135px);
+}
+
+.gradientBG {
+    position: absolute;
+    z-index: 15;
+    width: 610px;
+    height: 100%;
+    top: 0;
+    right: calc(50% - 307px);
+    clip-path: polygon(0 0, 100% 0, calc(100% - 120px) 100%, 118px 100%);
+    background: radial-gradient(50% 50% at 50% 50%, #15C7FF 0%, #0092C0 31.77%, #01003C 100%);
+}
+
+.kkText {
+    position: absolute;
+    z-index: 30;
+    top: calc(50% - 160px);
+    right: calc(50% - 160px);
+    width: 320px;
+}
+
+.kkText2 {
+    position: absolute;
+    z-index: 30;
+    top: calc(50% - 250px);
+    right: calc(50% - 160px);
+    width: 320px;
+}
+
+.wltBtnWrapper {
+    position: absolute;
+    z-index: 50;
+    bottom: 90px;
+    right: calc(50% - 180px);
+    width: 360px;
+    height: 70px;
+}
+
+.landingBtn {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 360px;
+    height: 70px;
+    background: linear-gradient(180deg, #FFE8AD 4.69%, #FFB800 26.04%, #FF9040 78.65%, #E464A2 100%);
+    box-shadow: 0px 12px 2px rgba(0, 0, 0, 0.45);
+    border-radius: 14px;
+    font-family: 'Lilita One';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 42px;
+    text-align: center;
+    color: #58143D;
+    cursor: pointer;
+}
+
+.landingBtn:active {
+    box-shadow: none;
+}
+
+.enteryFeeLabel {
+    font-family: 'Lilita One';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 42px;
+    line-height: 59px;
+    text-align: center;
+    color: #69F0AE;
+    position: absolute;
+    top: 80px;
+    right: calc(50% - 48px);
+}
+
+.starWrapper {
+    margin: 25px 0 50px;
+}
+
+.starIcon {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    margin: auto;
+}
+
+.loading {
+    font-family: 'Work Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 38px;
+    text-align: center;
+    margin: 0;
+}
