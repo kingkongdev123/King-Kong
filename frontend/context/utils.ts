@@ -6,6 +6,7 @@ import {
   TransactionInstruction,
   Transaction,
   Keypair,
+  ParsedAccountData,
 } from '@solana/web3.js';
 import {
   TOKEN_PROGRAM_ID,
@@ -221,6 +222,7 @@ export const isExistAccount = async (address: PublicKey, connection: Connection)
   try {
     const res = await connection.getAccountInfo(address);
     if (res && res.data) return true;
+    else return false;
   } catch (e) {
     return false;
   }
@@ -274,4 +276,20 @@ export const isInitializedUser = async (address: PublicKey, connection: Connecti
   );
   console.log('User Data PDA: ', userPool.toBase58());
   return await isExistAccount(userPool, connection);
+}
+
+export const sleep = (time: number) => {
+  return new Promise(resolve => setTimeout(resolve, time))
+}
+
+export const getDecimals = async (owner: PublicKey, tokenMint: PublicKey, connection: Connection): Promise<number | null> => {
+  try {
+    let ownerTokenAccount = await getAssociatedTokenAccount(owner, tokenMint);
+    const tokenAccount = await connection.getParsedAccountInfo(ownerTokenAccount);
+    let decimal = (tokenAccount.value?.data as ParsedAccountData).parsed.info.tokenAmount.decimals;
+    let DECIMALS = Math.pow(10, decimal);
+    return DECIMALS;
+  } catch {
+    return null;
+  }
 }

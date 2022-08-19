@@ -1,11 +1,10 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import React, { FC, useMemo } from 'react';
-
+import { ToastContainer } from 'react-toastify'
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 import {
-  CoinbaseWalletAdapter,
   GlowWalletAdapter,
   PhantomWalletAdapter,
   SlopeWalletAdapter,
@@ -13,7 +12,6 @@ import {
   SolletExtensionWalletAdapter,
   SolletWalletAdapter,
   TorusWalletAdapter,
-  TokenaryWalletAdapter,
 } from '@solana/wallet-adapter-wallets';
 import {
   WalletModalProvider,
@@ -44,7 +42,6 @@ function MyApp({ Component, pageProps }: AppProps) {
        * your users connect to will be loaded.
        */
       // new FakeWalletAdapter(),
-      new CoinbaseWalletAdapter(),
       new GlowWalletAdapter(),
       new PhantomWalletAdapter(),
       new SlopeWalletAdapter(),
@@ -52,7 +49,6 @@ function MyApp({ Component, pageProps }: AppProps) {
       new SolletExtensionWalletAdapter(),
       new SolletWalletAdapter(),
       new TorusWalletAdapter(),
-      new TokenaryWalletAdapter(),
     ],
     []
   );
@@ -62,6 +58,8 @@ function MyApp({ Component, pageProps }: AppProps) {
       <WalletProvider wallets={wallets} autoConnect>
         <WalletModalProvider>
           <Component {...pageProps} />
+          <ToastContainer style={{ fontSize: 14 }} />
+
         </WalletModalProvider>
       </WalletProvider>
     </ConnectionProvider>

@@ -6,7 +6,7 @@ export const SOLANA_MAINNET = "https://api.mainnet-beta.solana.com";
 export const TOKEN_METADATA_PROGRAM_ID = new PublicKey(
     'metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s',
 );
-export const PROGRAM_ID = new PublicKey('GoXDkhj7go3dJBxyHJc5PNiFnbVt7s8k2REcKPXEdsQf');
+export const PROGRAM_ID = new PublicKey("Q1Y4tckggicbdc7pNWzzcAkfr8gBGfjQcqnyCNNmTnt");
 export const GAME_POOL = new PublicKey("36ceJKVBBkHLv3c153ENH4PJmVeAXe4fNF7LD2GCN781");
 
 export const GLOBAL_AUTHORITY_SEED = "global-authority-v1";

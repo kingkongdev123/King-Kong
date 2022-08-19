@@ -269,7 +269,7 @@ export const createInitUserTx = async (
         user_bump, {
         accounts: {
             owner: userAddress,
-            userPool,
+            userPool: userPool,
             systemProgram: SystemProgram.programId,
             rent: SYSVAR_RENT_PUBKEY,
         },
@@ -375,8 +375,8 @@ export const gamePlayTx = async (
             userTokenAccount: userTokenAccount,
             escrowTokenAccount: escrowTokenAccount,
             winnerPda: winnerPDA,
-            treasury_wallet1: DAILY_REWARD_DIST_WALLET,
-            treasury_wallet2: GOLD_CHEST_WALLET,
+            treasuryWallet1: DAILY_REWARD_DIST_WALLET,
+            treasuryWallet2: GOLD_CHEST_WALLET,
             tokenProgram: TOKEN_PROGRAM_ID,
             systemProgram: SystemProgram.programId,
         }
@@ -586,6 +586,68 @@ export const createBuyTokenTx = async (
 
 }
 
+export const getGamePoolData = async (): Promise<any> => {
+    try {
+        let cloneWindow: any = window;
+
+        let provider = new anchor.AnchorProvider(solConnection, cloneWindow['solana'], anchor.AnchorProvider.defaultOptions())
+        const program = new anchor.Program(IDL as anchor.Idl, PROGRAM_ID, provider);
+
+        let game_pool = await anchor.web3.PublicKey.createWithSeed(
+            new PublicKey(GAME_POOL_ADDRESS),
+            GAME_VAULT_SEED,
+            PROGRAM_ID,
+        );
+
+        let gamePool = (await program.account.gamePool.fetch(game_pool)) as unknown as GamePool;
+        let members = gamePool.members.toNumber();
+        // let players = gamePool.players;
+        let bananaUsage: number[][] = [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []];
+        let round1Result: number[] = [];
+        let round2Result: number[] = [];
+        let round3Result: number[] = [];
+        let round4Result: number[] = [];
+        let players: string[] = [];
+
+        // console.log(gamePool, ">>> game Pool info");
+        // console.log(gamePool.bananaUsage, ">>> banana usage")
+        for (let i = 0; i < members; i++) {
+            for (let j = 0; j < gamePool.bananaUsage[i].length; j++) {
+                // bananaUsage[i][j] = gamePool.bananaUsage[i][j].toNumber();
+                let bnn = gamePool.bananaUsage[i][j].toNumber()
+                // console.log(i, j, " >>> ", bnn);
+                bananaUsage[i].push(gamePool.bananaUsage[i][j].toNumber());
+                // console.log(bananaUsage, ">> banana usage")
+            }
+            players.push(gamePool.players[i].toBase58());
+
+        }
+        for (let i = 0; i < gamePool.round1Result.length; i++) {
+            round1Result[i] = gamePool.round1Result[i].toNumber();
+        }
+        for (let i = 0; i < gamePool.round2Result.length; i++) {
+            round2Result[i] = gamePool.round2Result[i].toNumber();
+        }
+        for (let i = 0; i < gamePool.round3Result.length; i++) {
+            round3Result[i] = gamePool.round3Result[i].toNumber();
+        }
+        for (let i = 0; i < gamePool.round4Result.length; i++) {
+            round4Result[i] = gamePool.round4Result[i].toNumber();
+        }
+        return {
+            bananaUsage,
+            players,
+            round1Result,
+            round2Result,
+            round3Result,
+            round4Result
+        }
+    } catch (e) {
+        console.log("error occured in getGamePoolData >> ", e)
+        return;
+    }
+}
+
 export const getGameState = async (): Promise<any | null> => {
 
     let cloneWindow: any = window;
@@ -614,17 +676,19 @@ export const getGameState = async (): Promise<any | null> => {
         let winner = (gameState as unknown as GameConfigPool).winner.toBase58();
 
         let escrowNftMints = (gameState as unknown as GameConfigPool).escrowNftMints as PublicKey[];
-
-        console.log(rewardAmount, ">> reward sol amount for the game winners");
-        console.log(totalPlays, ">> total plays of the game");
-        console.log(entryFee, ">> entryfee");
-        console.log(txFee, ">> txFee");
-        console.log(escrowNftNums, ">> number of nfts in the escrow vault");
-        console.log(bananaMaxNums, ">> max limit numbers of bananas in one game");
-        console.log(bananaMint, ">> banana token mint address");
-        console.log(bananaDecimal, ">> banana decimal");
-        console.log(bananaPrice, ">> banana price");
-        console.log(winner, ">> game winner");
+        console.log("------------------------------------------------")
+        console.log(escrowNftMints[0].toBase58())
+        console.log("------------------------------------------------")
+        // console.log(rewardAmount, ">> reward sol amount for the game winners");
+        // console.log(totalPlays, ">> total plays of the game");
+        // console.log(entryFee, ">> entryfee");
+        // console.log(txFee, ">> txFee");
+        // console.log(escrowNftNums, ">> number of nfts in the escrow vault");
+        // console.log(bananaMaxNums, ">> max limit numbers of bananas in one game");
+        // console.log(bananaMint, ">> banana token mint address");
+        // console.log(bananaDecimal, ">> banana decimal");
+        // console.log(bananaPrice, ">> banana price");
+        // console.log(winner, ">> game winner");
 
         const [gameConfigVault, game_config_bump] = await PublicKey.findProgramAddress(
             [Buffer.from(GAME_CONFIGVAULT_SEED)],
@@ -664,7 +728,7 @@ export const getGameState = async (): Promise<any | null> => {
             winner: winner,
             globalAuthority: globalAuthority.toBase58(),
             gameConfigVault: gameConfigVault.toBase58(),
-            // gamePool: gamePool.toBase58(),
+            gamePool: gamePool.toBase58(),
             escrowVault: escrowVault.toBase58(),
             escrowNftMints: escrowNftMints
         };
@@ -704,21 +768,21 @@ export const getUserState = async (userAddress: PublicKey) => {
         let xpreward4Claimed = userState.xpreward4Claimed;
         let xpreward5Claimed = userState.xpreward5Claimed;
 
-        console.log(address, ":: user address")
-        console.log(playedVolume, ":: playedVolume")
-        console.log(playedNums, ":: playedNums")
-        console.log(playedBanana, ":: playedBanana")
-        console.log(buyedBanana, ":: buyedBanana")
-        console.log(winnedVolume, ":: winnedVolume")
-        console.log(winnedNums, ":: winnedNums")
-        console.log(winnedBanana, ":: winnedBanana")
-        console.log(winnedNft, ":: winnedNft")
-        console.log(winnerLast, ":: winnerLast")
-        console.log(xpreward1Claimed, ":: xpreward1Claimed")
-        console.log(xpreward2Claimed, ":: xpreward2Claimed")
-        console.log(xpreward3Claimed, ":: xpreward3Claimed")
-        console.log(xpreward4Claimed, ":: xpreward4Claimed")
-        console.log(xpreward5Claimed, ":: xpreward5Claimed")
+        // console.log(address, ":: user address")
+        // console.log(playedVolume, ":: playedVolume")
+        // console.log(playedNums, ":: playedNums")
+        // console.log(playedBanana, ":: playedBanana")
+        // console.log(buyedBanana, ":: buyedBanana")
+        // console.log(winnedVolume, ":: winnedVolume")
+        // console.log(winnedNums, ":: winnedNums")
+        // console.log(winnedBanana, ":: winnedBanana")
+        // console.log(winnedNft, ":: winnedNft")
+        // console.log(winnerLast, ":: winnerLast")
+        // console.log(xpreward1Claimed, ":: xpreward1Claimed")
+        // console.log(xpreward2Claimed, ":: xpreward2Claimed")
+        // console.log(xpreward3Claimed, ":: xpreward3Claimed")
+        // console.log(xpreward4Claimed, ":: xpreward4Claimed")
+        // console.log(xpreward5Claimed, ":: xpreward5Claimed")
 
         return {
             address: address,

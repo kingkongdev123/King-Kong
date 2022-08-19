@@ -12,11 +12,24 @@
     background: #CDCDCD;
 }
 
-.container span { 
+.container>span,
+.container>a,
+.container>a>span {
     display: flex;
+    cursor: pointer;
 }
 
 .icon {
     display: flex;
     align-items: center;
+}
+
+.detailMode {
+    flex-direction: column;
+}
+
+.detailMode>span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

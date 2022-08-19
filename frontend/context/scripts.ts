@@ -27,9 +27,9 @@ import {
 } from '@solana/web3.js';
 import { createBuyTokenTx, createClaimBananaForNftHoldersTx, createClaimXprewardTx, createDepositNftEscrowTx, createGamePoolTx, createInitGamePoolTx, createInitializeTx, createInitUserTx, createWithdrawEscrowNftTx, createWithdrawEscrowVolumeTx, gamePlayTx, getClaimRewardTx, getGameState, getUserState } from './script';
 import { WalletContextState } from '@solana/wallet-adapter-react';
-import getConfig from 'next/config'
 import { IDL } from './king_kong_game';
 
+import getConfig from 'next/config'
 const { publicRuntimeConfig } = getConfig()
 const cluster = publicRuntimeConfig.SOLANA_NETWORK;
 
@@ -69,44 +69,78 @@ export const claimXpreward = async (
     wallet: WalletContextState,
 
 ) => {
-    if (wallet.publicKey === null) return;
+    try {
+        if (wallet.publicKey === null) return;
 
-    let token_mint = BANANA_TOKEN_MINT;
-    let cloneWindow: any = window;
+        let token_mint = BANANA_TOKEN_MINT;
+        let cloneWindow: any = window;
 
-    let provider = new anchor.AnchorProvider(solConnection, cloneWindow['solana'], anchor.AnchorProvider.defaultOptions())
-    const program = new anchor.Program(IDL as anchor.Idl, PROGRAM_ID, provider);
+        let provider = new anchor.AnchorProvider(solConnection, cloneWindow['solana'], anchor.AnchorProvider.defaultOptions())
+        const program = new anchor.Program(IDL as anchor.Idl, PROGRAM_ID, provider);
 
-    const tx = await createClaimXprewardTx(xp, wallet.publicKey, token_mint, program, solConnection);
-    // const { blockhash } = await solConnection.getRecentBlockhash('confirmed');
-    // tx.feePayer = user;
-    // tx.recentBlockhash = blockhash;
-    // user.signTransaction(tx);
-    // let txId = await solConnection.sendTransaction(tx, [(payer as NodeWallet).payer]);
-    let txId = await wallet.sendTransaction(tx, solConnection);
-    await solConnection.confirmTransaction(txId, "confirmed");
-    console.log("txHash =", txId);
+        const tx = await createClaimXprewardTx(xp, wallet.publicKey, token_mint, program, solConnection);
+
+        let { blockhash } = await provider.connection.getRecentBlockhash("confirmed");
+
+        tx.feePayer = (wallet.publicKey as PublicKey);
+        tx.recentBlockhash = blockhash;
+
+        if (wallet.signTransaction !== undefined) {
+            // const signedTransactions = await wallet.signAllTransactions([tx]);
+            let signedTx = await wallet.signTransaction(tx);
+            let txId = await provider.connection.sendRawTransaction(signedTx.serialize(), {
+                skipPreflight: true,
+                maxRetries: 3,
+                preflightCommitment: 'confirmed',
+            })
+
+            await solConnection.confirmTransaction(txId, "finalized");
+
+            console.log("Your transaction signature", txId);
+        }
+    } catch (e) {
+        console.log("error occured in claimXpreward >> ", e)
+    }
 }
 
 export const initUserPool = async (
     wallet: WalletContextState,
 ) => {
+    try {
 
-    if (wallet.publicKey === null) return;
-    let cloneWindow: any = window;
+        if (wallet.publicKey === null) return;
+        if (!wallet) return;
+        let cloneWindow: any = window;
 
-    let provider = new anchor.AnchorProvider(solConnection, cloneWindow['solana'], anchor.AnchorProvider.defaultOptions());
-    const program = new anchor.Program(IDL as anchor.Idl, PROGRAM_ID, provider);
+        let provider = new anchor.AnchorProvider(solConnection, cloneWindow['solana'], anchor.AnchorProvider.defaultOptions());
+        const program = new anchor.Program(IDL as anchor.Idl, PROGRAM_ID, provider);
 
-    const tx = await createInitUserTx(wallet.publicKey, program);
-    // const { blockhash } = await solConnection.getRecentBlockhash('finalized');
-    // tx.feePayer = payer.publicKey;
-    // tx.recentBlockhash = blockhash;
-    // payer.signTransaction(tx);
-    // let txId = await solConnection.sendTransaction(tx, [(payer as NodeWallet).payer]);
-    let txId = await wallet.sendTransaction(tx, solConnection);
-    await solConnection.confirmTransaction(txId, "finalized");
-    console.log("Your transaction signature", txId);
+        const tx = await createInitUserTx(wallet.publicKey, program);
+
+        let { blockhash } = await provider.connection.getRecentBlockhash("confirmed");
+
+
+        tx.feePayer = (wallet.publicKey as PublicKey);
+        tx.recentBlockhash = blockhash;
+
+        if (wallet.signTransaction !== undefined) {
+            // const signedTransactions = await wallet.signAllTransactions([tx]);
+            let signedTx = await wallet.signTransaction(tx);
+            let txId = await provider.connection.sendRawTransaction(signedTx.serialize(), {
+                skipPreflight: true,
+                maxRetries: 3,
+                preflightCommitment: 'finalized',
+            })
+
+            await solConnection.confirmTransaction(txId, "finalized");
+
+            console.log("Your transaction signature", txId);
+        }
+
+
+    } catch (e) {
+        console.log("error occured in initUserPool >> ", e);
+    }
 }
 
 export const playGame = async (
@@ -116,59 +150,133 @@ export const playGame = async (
     round2Banana: number = 0,
     round3Banana: number = 0,
     round4Banana: number = 0,
-) => {
+): Promise<number> => {
+    try {
 
-    if (wallet.publicKey === null) return;
-    let cloneWindow: any = window;
+        if (wallet.publicKey === null) return -3;
+        let cloneWindow: any = window;
 
-    let provider = new anchor.AnchorProvider(solConnection, cloneWindow['solana'], anchor.AnchorProvider.defaultOptions());
-    const program = new anchor.Program(IDL as anchor.Idl, PROGRAM_ID, provider);
+        let provider = new anchor.AnchorProvider(solConnection, cloneWindow['solana'], anchor.AnchorProvider.defaultOptions());
+        const program = new anchor.Program(IDL as anchor.Idl, PROGRAM_ID, provider);
 
-    if (!await isInitializedUser(wallet.publicKey, solConnection)) {
-        console.log('User PDA is not Initialized. Should Init User PDA for first usage');
-        return;
+        if (!await isInitializedUser(wallet.publicKey, solConnection)) {
+            console.log('User PDA is not Initialized. Should Init User PDA for first usage');
+            await initUserPool(wallet);
+            // return;
+        }
+
+        const tx = await gamePlayTx(round1Banana, round2Banana, round3Banana, round4Banana, wallet.publicKey, program, solConnection);
+
+        let { blockhash } = await provider.connection.getRecentBlockhash("confirmed");
+
+        tx.feePayer = (wallet.publicKey as PublicKey);
+        tx.recentBlockhash = blockhash;
+
+        if (wallet.signTransaction !== undefined) {
+            // const signedTransactions = await wallet.signAllTransactions([tx]);
+            let signedTx = await wallet.signTransaction(tx);
+
+            let txId = await provider.connection.sendRawTransaction(signedTx.serialize(), {
+                skipPreflight: true,
+                maxRetries: 3,
+                preflightCommitment: 'confirmed',
+            })
+
+            let result = await solConnection.confirmTransaction(txId, "finalized");
+
+            if (!result.value.err) {
+                console.log("Your transaction signature", txId);
+                return 0;
+            } else {
+                return -100;
+            }
+        }
+        return -2;
+    } catch (e) {
+        console.log("error occured in playGame >> ", e);
+        return -1;
     }
-
-
-
-    const tx = await gamePlayTx(round1Banana, round2Banana, round3Banana, round4Banana, wallet.publicKey, program, solConnection);
-    // const { blockhash } = await solConnection.getRecentBlockhash('finalized');
-    // tx.feePayer = payer.publicKey;
-    // tx.recentBlockhash = blockhash;
-    // payer.signTransaction(tx);
-    // let txId = await solConnection.sendTransaction(tx, [(payer as NodeWallet).payer]);
-    let txId = await wallet.sendTransaction(tx, solConnection);
-    await solConnection.confirmTransaction(txId, "finalized");
-    console.log("Your transaction signature", txId);
 }
-
+interface ClaimRewardReturnType {
+    result: number,
+    msg: string
+}
 export const claimReward = async (
     wallet: WalletContextState,
 
-) => {
+): Promise<ClaimRewardReturnType> => {
+    try {
 
-    if (wallet.publicKey === null) return;
-    let cloneWindow: any = window;
+        if (wallet.publicKey === null) return {
+            result: -2,
+            msg: "Wallet is not provided"
+        };
+        let cloneWindow: any = window;
 
-    let provider = new anchor.AnchorProvider(solConnection, cloneWindow['solana'], anchor.AnchorProvider.defaultOptions());
-    const program = new anchor.Program(IDL as anchor.Idl, PROGRAM_ID, provider);
+        let provider = new anchor.AnchorProvider(solConnection, cloneWindow['solana'], anchor.AnchorProvider.defaultOptions());
+        const program = new anchor.Program(IDL as anchor.Idl, PROGRAM_ID, provider);
 
 
-    let gamePool = await getGameState();
+        let gamePool = await getGameState();
 
-    let userPool = await getUserState(wallet.publicKey);
+        let userPool = await getUserState(wallet.publicKey);
 
-    if (gamePool.winner == wallet.publicKey.toBase58() || userPool?.winnerLast == 1) {
-        // get mint address from the game vault
-        let nft_mint = gamePool.escrowNftMints[0];
-        let token_mint = BANANA_TOKEN_MINT;
+        if (gamePool.winner == wallet.publicKey.toBase58() || userPool?.winnerLast == 1) {
+            // get mint address from the game vault
+            let nft_mint = gamePool.escrowNftMints[0];
+            let token_mint = BANANA_TOKEN_MINT;
 
-        const tx = await getClaimRewardTx(token_mint, nft_mint, wallet.publicKey, program, solConnection);
-        let txId = await wallet.sendTransaction(tx, solConnection);
-        await solConnection.confirmTransaction(txId, "finalized");
-        console.log("Your transaction signature", txId);
-    } else {
-        console.log("No reward to claim!")
+            const tx = await getClaimRewardTx(token_mint, nft_mint, wallet.publicKey, program, solConnection);
+            // sign and confirm trasnaction
+
+            let { blockhash } = await provider.connection.getRecentBlockhash("confirmed");
+
+            tx.feePayer = (wallet.publicKey as PublicKey);
+            tx.recentBlockhash = blockhash;
+
+            if (wallet.signTransaction !== undefined) {
+
+                // const signedTransactions = await wallet.signAllTransactions([tx]);
+                let signedTx = await wallet.signTransaction(tx);
+
+                let txId = await provider.connection.sendRawTransaction(signedTx.serialize(), {
+                    skipPreflight: true,
+                    maxRetries: 3,
+                    preflightCommitment: 'confirmed',
+                })
+
+                let txx = await solConnection.confirmTransaction(txId, "finalized");
+
+                console.log("Your transaction signature", txId);
+                if (!txx.value.err) return {
+                    result: 0,
+                    msg: "Transaction Id : " + txId
+                }
+                else return {
+                    result: -4,
+                    msg: "Transaction Id : " + txId
+                }
+
+            } else {
+                return {
+                    result: -5,
+                    msg: "Sign transaction is not supported with this wallet"
+                }
+            }
+
+        } else {
+            console.log("No reward to claim!")
+            return {
+                result: -3,
+                msg: "No reward to claim!"
+            }
+        }
+    } catch (e) {
+        console.log("error occured in claimReward >> ", e)
+        return {
+            result: -1,
+            msg: (e as string)
+        }
     }
 }
 
@@ -176,17 +284,37 @@ export const buyBnn = async (
     wallet: WalletContextState,
     tokenAmount: number
 ) => {
+    try {
 
-    if (wallet.publicKey === null) return;
-    let cloneWindow: any = window;
+        if (wallet.publicKey === null) return;
+        let cloneWindow: any = window;
 
-    let provider = new anchor.AnchorProvider(solConnection, cloneWindow['solana'], anchor.AnchorProvider.defaultOptions());
-    const program = new anchor.Program(IDL as anchor.Idl, PROGRAM_ID, provider);
+        let provider = new anchor.AnchorProvider(solConnection, cloneWindow['solana'], anchor.AnchorProvider.defaultOptions());
+        const program = new anchor.Program(IDL as anchor.Idl, PROGRAM_ID, provider);
 
-    const tx = await createBuyTokenTx(tokenAmount, BANANA_TOKEN_MINT, wallet.publicKey, program, solConnection);
-    let txId = await wallet.sendTransaction(tx, solConnection);
-    await solConnection.confirmTransaction(txId, "finalized");
-    console.log("Your transaction signature", txId);
+        const tx = await createBuyTokenTx(tokenAmount, BANANA_TOKEN_MINT, wallet.publicKey, program, solConnection);
+
+        let { blockhash } = await provider.connection.getRecentBlockhash("confirmed");
+
+        tx.feePayer = (wallet.publicKey as PublicKey);
+        tx.recentBlockhash = blockhash;
+
+        if (wallet.signTransaction !== undefined) {
+            // const signedTransactions = await wallet.signAllTransactions([tx]);
+            let signedTx = await wallet.signTransaction(tx);
+            let txId = await provider.connection.sendRawTransaction(signedTx.serialize(), {
+                skipPreflight: true,
+                maxRetries: 3,
+                preflightCommitment: 'confirmed',
+            })
+
+            await solConnection.confirmTransaction(txId, "finalized");
+
+            console.log("Your transaction signature", txId);
+        }
+    } catch (e) {
+        console.log("error occured in buyBnn >>", e);
+    }
 }
 
 /**
@@ -197,17 +325,37 @@ export const depositNftEscrow = async (
     wallet: WalletContextState,
     nft_mint: PublicKey
 ) => {
+    try {
 
-    if (wallet.publicKey === null) return;
-    let cloneWindow: any = window;
+        if (wallet.publicKey === null) return;
+        let cloneWindow: any = window;
 
-    let provider = new anchor.AnchorProvider(solConnection, cloneWindow['solana'], anchor.AnchorProvider.defaultOptions());
-    const program = new anchor.Program(IDL as anchor.Idl, PROGRAM_ID, provider);
+        let provider = new anchor.AnchorProvider(solConnection, cloneWindow['solana'], anchor.AnchorProvider.defaultOptions());
+        const program = new anchor.Program(IDL as anchor.Idl, PROGRAM_ID, provider);
 
-    const tx = await createDepositNftEscrowTx(wallet.publicKey, nft_mint, program, solConnection);
-    let txId = await wallet.sendTransaction(tx, solConnection);
-    await solConnection.confirmTransaction(txId, "finalized");
-    console.log("Your transaction signature", txId);
+        const tx = await createDepositNftEscrowTx(wallet.publicKey, nft_mint, program, solConnection);
+
+        let { blockhash } = await provider.connection.getRecentBlockhash("confirmed");
+
+        tx.feePayer = (wallet.publicKey as PublicKey);
+        tx.recentBlockhash = blockhash;
+
+        if (wallet.signTransaction !== undefined) {
+            // const signedTransactions = await wallet.signAllTransactions([tx]);
+            let signedTx = await wallet.signTransaction(tx);
+            let txId = await provider.connection.sendRawTransaction(signedTx.serialize(), {
+                skipPreflight: true,
+                maxRetries: 3,
+                preflightCommitment: 'confirmed',
+            })
+
+            await solConnection.confirmTransaction(txId, "finalized");
+
+            console.log("Your transaction signature", txId);
+        }
+    } catch (e) {
+        console.log("error occured in depositNftEscrow >> ", e);
+    }
 }
 
 export const withdrawEscrowVolume = async (
@@ -215,64 +363,124 @@ export const withdrawEscrowVolume = async (
     solAmount: number = 1000000000,
     tokenAmount: number = 1000000000
 ) => {
+    try {
 
-    if (wallet.publicKey === null) return;
-    let cloneWindow: any = window;
+        if (wallet.publicKey === null) return;
+        let cloneWindow: any = window;
 
-    let provider = new anchor.AnchorProvider(solConnection, cloneWindow['solana'], anchor.AnchorProvider.defaultOptions());
-    const program = new anchor.Program(IDL as anchor.Idl, PROGRAM_ID, provider);
+        let provider = new anchor.AnchorProvider(solConnection, cloneWindow['solana'], anchor.AnchorProvider.defaultOptions());
+        const program = new anchor.Program(IDL as anchor.Idl, PROGRAM_ID, provider);
 
-    let token_mint = BANANA_TOKEN_MINT;
-    const tx = await createWithdrawEscrowVolumeTx(solAmount, tokenAmount, token_mint, wallet.publicKey, program, solConnection);
-    let txId = await wallet.sendTransaction(tx, solConnection);
-    await solConnection.confirmTransaction(txId, "finalized");
-    console.log("Your transaction signature", txId);
+        let token_mint = BANANA_TOKEN_MINT;
+        const tx = await createWithdrawEscrowVolumeTx(solAmount, tokenAmount, token_mint, wallet.publicKey, program, solConnection);
+
+        let { blockhash } = await provider.connection.getRecentBlockhash("confirmed");
+
+        tx.feePayer = (wallet.publicKey as PublicKey);
+        tx.recentBlockhash = blockhash;
+
+        if (wallet.signTransaction !== undefined) {
+            // const signedTransactions = await wallet.signAllTransactions([tx]);
+            let signedTx = await wallet.signTransaction(tx);
+            let txId = await provider.connection.sendRawTransaction(signedTx.serialize(), {
+                skipPreflight: true,
+                maxRetries: 3,
+                preflightCommitment: 'confirmed',
+            })
+
+            await solConnection.confirmTransaction(txId, "finalized");
+
+            console.log("Your transaction signature", txId);
+        }
+    } catch (e) {
+        console.log("error occured in withdrawEscrowVolume >> ", e);
+    }
 }
 
 export const withdrawEscrowNft = async (
     wallet: WalletContextState,
     nft_mint: string | null = null
 ) => {
+    try {
 
-    if (wallet.publicKey === null) return;
-    let cloneWindow: any = window;
+        if (wallet.publicKey === null) return;
+        let cloneWindow: any = window;
 
-    let provider = new anchor.AnchorProvider(solConnection, cloneWindow['solana'], anchor.AnchorProvider.defaultOptions());
-    const program = new anchor.Program(IDL as anchor.Idl, PROGRAM_ID, provider);
+        let provider = new anchor.AnchorProvider(solConnection, cloneWindow['solana'], anchor.AnchorProvider.defaultOptions());
+        const program = new anchor.Program(IDL as anchor.Idl, PROGRAM_ID, provider);
 
-    let game_data = await getGameState();
+        let game_data = await getGameState();
 
-    if (!nft_mint) nft_mint = game_data.escrowNftMints[0].toBase58();
-    if (!nft_mint) return;
-    const tx = await createWithdrawEscrowNftTx(new PublicKey(nft_mint), wallet.publicKey, program, solConnection);
-    let txId = await wallet.sendTransaction(tx, solConnection);
-    await solConnection.confirmTransaction(txId, "finalized");
-    console.log("Your transaction signature", txId);
+        if (!nft_mint) nft_mint = game_data.escrowNftMints[0].toBase58();
+        if (!nft_mint) return;
+        const tx = await createWithdrawEscrowNftTx(new PublicKey(nft_mint), wallet.publicKey, program, solConnection);
+
+        let { blockhash } = await provider.connection.getRecentBlockhash("confirmed");
+
+        tx.feePayer = (wallet.publicKey as PublicKey);
+        tx.recentBlockhash = blockhash;
+
+        if (wallet.signTransaction !== undefined) {
+            // const signedTransactions = await wallet.signAllTransactions([tx]);
+            let signedTx = await wallet.signTransaction(tx);
+            let txId = await provider.connection.sendRawTransaction(signedTx.serialize(), {
+                skipPreflight: true,
+                maxRetries: 3,
+                preflightCommitment: 'confirmed',
+            })
+
+            await solConnection.confirmTransaction(txId, "finalized");
+
+            console.log("Your transaction signature", txId);
+        }
+    } catch (e) {
+        console.log("error occured in withdrawEscrowNft >> ", e);
+    }
 }
 
 export const claimBananaForNftHolders = async (
     wallet: WalletContextState,
     nft_mint: PublicKey
 ) => {
+    try {
 
-    if (wallet.publicKey === null) return;
-    let cloneWindow: any = window;
+        if (wallet.publicKey === null) return;
+        let cloneWindow: any = window;
 
-    let provider = new anchor.AnchorProvider(solConnection, cloneWindow['solana'], anchor.AnchorProvider.defaultOptions());
-    const program = new anchor.Program(IDL as anchor.Idl, PROGRAM_ID, provider);
+        let provider = new anchor.AnchorProvider(solConnection, cloneWindow['solana'], anchor.AnchorProvider.defaultOptions());
+        const program = new anchor.Program(IDL as anchor.Idl, PROGRAM_ID, provider);
 
-    let token_mint = BANANA_TOKEN_MINT;
+        let token_mint = BANANA_TOKEN_MINT;
 
-    const tx = await createClaimBananaForNftHoldersTx(
-        wallet.publicKey,
-        nft_mint,
-        token_mint,
-        program,
-        solConnection
-    );
-    let txId = await wallet.sendTransaction(tx, solConnection);
-    await solConnection.confirmTransaction(txId, "finalized");
-    console.log("Your transaction signature", txId);
+        const tx = await createClaimBananaForNftHoldersTx(
+            wallet.publicKey,
+            nft_mint,
+            token_mint,
+            program,
+            solConnection
+        );
+
+        let { blockhash } = await provider.connection.getRecentBlockhash("confirmed");
+
+        tx.feePayer = (wallet.publicKey as PublicKey);
+        tx.recentBlockhash = blockhash;
+
+        if (wallet.signTransaction !== undefined) {
+            // const signedTransactions = await wallet.signAllTransactions([tx]);
+            let signedTx = await wallet.signTransaction(tx);
+            let txId = await provider.connection.sendRawTransaction(signedTx.serialize(), {
+                skipPreflight: true,
+                maxRetries: 3,
+                preflightCommitment: 'confirmed',
+            })
+
+            await solConnection.confirmTransaction(txId, "finalized");
+
+            console.log("Your transaction signature", txId);
+        }
+    } catch (e) {
+        console.log("error occured in claimBananaForNftHolders >> ", e);
+    }
 }
 
-main();
+// main();

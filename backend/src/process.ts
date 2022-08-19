@@ -22,6 +22,53 @@ let program = new anchor.Program(KingKongGameIdl, PROGRAM_ID, newProvider) as un
 // let program = new anchor.Program(KingKongGameIdl as anchor.Idl, PROGRAM_ID);
 console.log('ProgramId: ', program.programId.toBase58());
 
+export const getPlayerInfo = async (address: string) => {
+    try {
+        let userStats = loadDump('/userStats.json');
+        if (userStats[address]) return userStats[address];
+        else return {
+            pfp: "https://www.arweave.net/GfqxhJsdU9YApXUKjZKgYhS0S2zGjIVzkF6K6MwZc18?ext=png"
+        }
+    } catch (e) {
+        console.log(e)
+        return -1;
+    }
+}
+
+export const registerAvatar4Game = async (address: string, avatar: string) => {
+    try {
+        let userStats = loadDump('/userStats.json');
+        if (!userStats) {
+            userStats = {};
+        }
+        if (userStats[address]) {
+            userStats[address] = {
+                address: address,
+                playedVolume: userStats[address].playedVolume,
+                playedNums: userStats[address].playedNums,
+                playedBanana: userStats[address].playedBanana,
+                buyedBanana: userStats[address].buyedBanana,
+                winnedVolume: userStats[address].winnedVolume,
+                winnedNums: userStats[address].winnedNums,
+                winnedBanana: userStats[address].winnedBanana,
+                winnedNft: userStats[address].winnedNft,
+                winnerLast: userStats[address].winnerLast,
+                xp: userStats[address].xp,
+                pfp: avatar
+            }
+        } else {
+            userStats[address] = {
+                pfp: avatar
+            }
+        }
+        saveDump('/userStats.json', userStats);
+        return 0;
+    } catch (e) {
+        console.log(e);
+        return -1
+    }
+}
+
 export const getUserStats = async () => {
     let userStats = loadDump('/userStats.json');
     if (!userStats) {
@@ -372,7 +419,8 @@ export const playGameEventHandler = async (sign: string, io: Server) => {
                         winnedBanana: winnedBanana,
                         winnedNft: winnedNft,
                         winnerLast: winnerLast,
-                        xp: userStats[address] ? userStats[address].xp + playerXp.get(address) : playerXp.get(address)
+                        xp: userStats[address] ? userStats[address].xp + playerXp.get(address) : playerXp.get(address),
+                        pfp: userStats[address].php ? userStats[address].php : "https://www.arweave.net/GfqxhJsdU9YApXUKjZKgYhS0S2zGjIVzkF6K6MwZc18?ext=png"
                     }
 
                 })

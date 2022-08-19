@@ -3,7 +3,8 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   publicRuntimeConfig: {
-    SOLANA_NETWORK: "devnet"
+    SOLANA_NETWORK: "devnet",
+    SERVER_URL: "http://localhost:3002",
   }
 }
 
