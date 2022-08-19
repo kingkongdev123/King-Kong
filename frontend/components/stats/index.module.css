@@ -1,6 +1,6 @@
 .container {
     width: 100%;
-    height: calc(100vh - 180px);
+    height: calc(100vh - 110px);
     background: #F3F3F3;
 }
 
@@ -72,63 +72,18 @@
 
 .dataTable {
     width: 100%;
-    height: calc(100% - 122px);
+    height: calc(100% - 62px);
     overflow-y: scroll;
 }
 
-.dataTable>div {
+.table {
     width: 100%;
-    display: flex;
-    justify-content: space-between;
+    border-collapse: collapse;
 }
 
-.dataTable>div>span:first-child {
-    padding-left: 50px;
-    width: calc(100% - 350px);
-
-}
-
-.dataTable>div>span:last-child {
-    text-align: center;
-    width: 350px;
-}
-
-.header {
-    height: 60px;
-    background: #DDDDDD;
-    position: sticky;
-    font-family: 'Work Sans';
-    font-style: normal;
-    font-weight: 600;
-    font-size: 32px;
-    line-height: 60px;
-    color: #323232;
-}
-
-.row {
-    height: 45px;
-    margin: 10px 0;
-    background: #E8E8E8;
-}
-.row >span:first-child{ 
-    display: flex;
-}
-.row >span:last-child{ 
-    font-family: 'Work Sans';
-    font-style: normal;
-    font-weight: 600;
-    font-size: 20px;
-    line-height: 45px;
-    text-align: right;
-    color: #323232;
-}
-
-.pfp {    
-    margin: 5px 5px 5px 0;
-}
-
-.userInfo {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
+.table >tbody > tr {
+    height: 35px;
+    margin: 8px 0;
+    background: #EBEBEB;
+    margin: 8px;
 }

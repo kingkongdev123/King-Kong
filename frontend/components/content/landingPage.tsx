@@ -280,7 +280,7 @@ const LandingPage = (props: Props) => {
                             ENTER THE JUNGLE
                         </span>
                         <span className={styles.enteryFeeLabel}>
-                            1 SOL
+                            0.1 SOL
                         </span>
                     </>
                 }
@@ -406,7 +406,7 @@ const LandingPage = (props: Props) => {
                                                 </span>
                                                 &nbsp;Banana for
                                                 &nbsp;<span className={styles.bnnPriceLabel}>
-                                                    1 SOL
+                                                    0.1 SOL
                                                 </span>
                                             </p>
                                         </div>
@@ -420,7 +420,7 @@ const LandingPage = (props: Props) => {
                                                 </span>
                                                 &nbsp;Bananas for
                                                 &nbsp;<span className={styles.bnnPriceLabel}>
-                                                    2 SOL
+                                                    0.2 SOL
                                                 </span>
                                             </p>
                                         </div>

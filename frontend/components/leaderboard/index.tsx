@@ -10,11 +10,37 @@ import styles from './index.module.css';
 import { useWallet } from '@solana/wallet-adapter-react';
 
 import { sleep } from '../../context/utils';
-
-
+import axios from 'axios';
+import getConfig from 'next/config'
+import { LAMPORTS_PER_SOL } from '@solana/web3.js';
+const { publicRuntimeConfig } = getConfig()
+const cluster = publicRuntimeConfig.SOLANA_NETWORK;
+const SERVER_URL = publicRuntimeConfig.SERVER_URL;
 
 const LeaderboardContent = () => {
     const [menu, setMenu] = React.useState("day")
+    const [tableData, setTableData] = React.useState<any[]>([])
+    const loadData = async () => {
+        let result = await axios.get(SERVER_URL + "/api/user_stats");
+        let arrayData: any[] = [];
+
+        for (let item in result.data) {
+
+            let temp = result.data[item];
+            // temp['name'] = item;
+            arrayData.push(temp);
+        }
+
+        let sortedData = arrayData.sort((a: any, b: any) => {
+            return (a.winnedVolume ? a.winnedVolume : 0) > (b.winnedVolume ? b.winnedVolume : 0) ? -1 : 1
+        }).slice(-100)
+
+        console.log(sortedData)
+        setTableData(sortedData)
+    }
+    React.useEffect(() => {
+        loadData()
+    }, [])
     return (
 
         <div className={styles.container}>
@@ -51,23 +77,37 @@ const LeaderboardContent = () => {
                             Amount Won
                         </span>
                     </div>
-                    <div className={styles.row}>
-                        <span>
-                            <img src={'https://img-cdn.magiceden.dev/rs:fill:400:400:0:0/plain/https%3A%2F%2Fbafybeigkkv6w7dbkygm7jjnxfeqkkb5lpjt7umihturkgxf7qnjt5lxtg4.ipfs.dweb.link%2F5752.png%3Fext%3Dpng'} alt="pfp" className={styles.pfp} />
-                            <span className={styles.userInfo}>
-                                <span>
-                                    G42V1DfQKKHrxxfdjDrRphPStZx5Jqu2JwShfN3WoKmK
-                                </span>
-                                <span>
-                                    612 games played
-                                </span>
-                            </span>
 
-                        </span>
-                        <span>
-                            200 SOL
-                        </span>
-                    </div>
+                    {
+                        tableData.map((item, idx) => {
+                            if (item.address && item.playedNums && (item.winnedVolume !== undefined && item.winnedVolume >= 0))
+                                return (
+                                    <div className={styles.row} key={idx}>
+                                        <span >
+                                            <img src={'https://img-cdn.magiceden.dev/rs:fill:400:400:0:0/plain/https%3A%2F%2Fbafybeigkkv6w7dbkygm7jjnxfeqkkb5lpjt7umihturkgxf7qnjt5lxtg4.ipfs.dweb.link%2F5752.png%3Fext%3Dpng'} alt="pfp" className={styles.pfp} />
+                                            <span className={styles.userInfo}>
+                                                <span>
+                                                    {
+                                                        item.address
+                                                    }
+                                                </span>
+                                                <span>
+                                                    {item.playedNums} games played
+                                                </span>
+                                            </span>
+
+                                        </span>
+                                        <span>
+                                            {
+                                                item.winnedVolume != 0 ?
+                                                    (item.winnedVolume / LAMPORTS_PER_SOL).toFixed(1) : 0
+                                            } SOL
+                                        </span>
+                                    </div>
+                                )
+                        })
+                    }
+
                 </div>
             </div>
 

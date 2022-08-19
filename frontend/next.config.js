@@ -4,7 +4,7 @@ const nextConfig = {
   swcMinify: true,
   publicRuntimeConfig: {
     SOLANA_NETWORK: "devnet",
-    SERVER_URL: "http://localhost:3002",
+    SERVER_URL: "http://localhost:3001",
   }
 }
 

@@ -5,9 +5,10 @@ import Content from '../components/content/content'
 import LeaderboardContent from '../components/leaderboard'
 import Footer from '../components/navbar/footer'
 import TopBar from '../components/navbar/topbar'
+import StatsContent from '../components/stats'
 import styles from '../styles/Home.module.css'
 
-const Leaderboard: NextPage = () => {
+const Stats: NextPage = () => {
     return (
         <div className={styles.container}>
             <Head>
@@ -17,10 +18,10 @@ const Leaderboard: NextPage = () => {
             </Head>
 
             <TopBar />
-            <LeaderboardContent />
+            <StatsContent />
 
         </div>
     )
 }
 
-export default Leaderboard
+export default Stats
