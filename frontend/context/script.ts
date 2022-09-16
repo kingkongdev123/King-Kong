@@ -280,6 +280,30 @@ export const createInitUserTx = async (
     return tx;
 }
 
+export const createInitUserIx = async (
+    userAddress: PublicKey,
+    program: anchor.Program,
+) => {
+    const [userPool, user_bump] = await PublicKey.findProgramAddress(
+        [Buffer.from(USER_DATA_SEED), userAddress.toBuffer()],
+        PROGRAM_ID,
+    );
+
+    let ix = program.instruction.initUserPool(
+        user_bump, {
+        accounts: {
+            owner: userAddress,
+            userPool: userPool,
+            systemProgram: SystemProgram.programId,
+            rent: SYSVAR_RENT_PUBKEY,
+        },
+        instructions: [],
+        signers: [],
+    });
+
+    return ix;
+}
+
 export const gamePlayTx = async (
     round1Banana: number,
     round2Banana: number,
@@ -648,7 +672,7 @@ export const getGamePoolData = async (): Promise<any> => {
     }
 }
 
-export const getGameState = async (): Promise<any | null> => {
+export const getGameState = async (): Promise<any | undefined> => {
 
     let cloneWindow: any = window;
 
@@ -676,9 +700,9 @@ export const getGameState = async (): Promise<any | null> => {
         let winner = (gameState as unknown as GameConfigPool).winner.toBase58();
 
         let escrowNftMints = (gameState as unknown as GameConfigPool).escrowNftMints as PublicKey[];
-        console.log("------------------------------------------------")
-        console.log(escrowNftMints[0].toBase58())
-        console.log("------------------------------------------------")
+        // console.log("------------------------------------------------")
+        // console.log(escrowNftMints[0].toBase58())
+        // console.log("------------------------------------------------")
         // console.log(rewardAmount, ">> reward sol amount for the game winners");
         // console.log(totalPlays, ">> total plays of the game");
         // console.log(entryFee, ">> entryfee");
@@ -733,7 +757,7 @@ export const getGameState = async (): Promise<any | null> => {
             escrowNftMints: escrowNftMints
         };
     } catch {
-        return null;
+        return;
     }
 }
 

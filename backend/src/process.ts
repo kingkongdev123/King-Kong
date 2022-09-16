@@ -14,103 +14,182 @@ import WalletSeed from './config/fake-wallet.json';
 import HashList from './config/nft_hash_list.json';
 import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
 import NodeWallet from '@project-serum/anchor/dist/cjs/nodewallet';
+import mysql from 'mysql2';
+import * as dotenv from "dotenv";
+dotenv.config();
 
 const solConnection = new Connection(web3.clusterApiUrl(SOLANA_NETWORK), "confirmed");
 const wallet = new Wallet(Keypair.fromSecretKey(Uint8Array.from(WalletSeed), { skipValidation: true }));
 const newProvider = new anchor.Provider(solConnection, wallet, {});
 let program = new anchor.Program(KingKongGameIdl, PROGRAM_ID, newProvider) as unknown as Program;
-// let program = new anchor.Program(KingKongGameIdl as anchor.Idl, PROGRAM_ID);
 console.log('ProgramId: ', program.programId.toBase58());
 
+const pool = mysql.createPool({
+    host: 'localhost',
+    user: 'root',
+    database: 'kkgame',
+    password: ""
+});
+const promisePool = pool.promise();
+
 export const getPlayerInfo = async (address: string) => {
+
     try {
-        let userStats = loadDump('/userStats.json');
-        if (userStats[address]) return userStats[address];
-        else return {
-            pfp: "https://www.arweave.net/GfqxhJsdU9YApXUKjZKgYhS0S2zGjIVzkF6K6MwZc18?ext=png"
+        let query = `select * from users where address='${address}'`;
+        let [rows, fields] = await promisePool.query(query);
+        let result = rows as any[];
+        if (result.length == 0) {
+            query = `INSERT INTO users (address, pfp) VALUES ('${address}', '${process.env.defaultPfp}')`
+            console.log(query)
+            await promisePool.query(query)
+            return {
+                address: address,
+                pfp: process.env.defaultPfp
+            }
+
+        } else {
+            return result[0];
         }
+        console.log(result)
     } catch (e) {
-        console.log(e)
+        console.log(e);
         return -1;
     }
 }
 
 export const registerAvatar4Game = async (address: string, avatar: string) => {
     try {
-        let userStats = loadDump('/userStats.json');
-        if (!userStats) {
-            userStats = {};
-        }
-        if (userStats[address]) {
-            userStats[address] = {
-                address: address,
-                playedVolume: userStats[address].playedVolume,
-                playedNums: userStats[address].playedNums,
-                playedBanana: userStats[address].playedBanana,
-                buyedBanana: userStats[address].buyedBanana,
-                winnedVolume: userStats[address].winnedVolume,
-                winnedNums: userStats[address].winnedNums,
-                winnedBanana: userStats[address].winnedBanana,
-                winnedNft: userStats[address].winnedNft,
-                winnerLast: userStats[address].winnerLast,
-                xp: userStats[address].xp,
-                pfp: avatar
-            }
+        let query = `SELECT * from users where address='${address}'`;
+        let [rows, fields] = await promisePool.query(query);
+        let result = rows as any[];
+        if (result.length > 0) {
+            query = `UPDATE users SET pfp='${avatar}' where address='${address}'`
         } else {
-            userStats[address] = {
-                pfp: avatar
-            }
+            query = `INSERT INTO users (address, pfp) VALUES ('${address}', '${avatar}')`
         }
-        saveDump('/userStats.json', userStats);
+        await promisePool.query(query);
         return 0;
     } catch (e) {
-        console.log(e);
-        return -1
+        console.log(e)
+        return -1;
     }
 }
+export const getUserStats = async (address: string) => {
+    try {
+        let query = `SELECT * FROM users WHERE address='${address}'`;
+        let [rows, fields] = await promisePool.query(query);
+        let result = rows as any[];
 
-export const getUserStats = async () => {
-    let userStats = loadDump('/userStats.json');
-    if (!userStats) {
-        userStats = {};
-        saveDump('/userStats.json', userStats);
+        let playedNums = 0;
+        let winnedNums = 0;
+        let xp = 0;
+        let winnedVolume = 0;
+        let playedVolume = 0;
+        if (result.length > 0) {
+            playedNums = result[0].playedNums;
+            winnedNums = result[0].winnedNums;
+            xp = result[0].xp;
+            winnedVolume = result[0].winnedVolume;
+            playedVolume = result[0].playedVolume;
+        }
+
+        query = `select * from gamehistory where player='${address}'`;
+        [rows, fields] = await promisePool.query(query);
+        result = rows as any[];
+        let finalRoundReachedNums = 0;
+        if (result.length > 0) {
+            finalRoundReachedNums = result[0].r4result;
+        }
+        return {
+            playedNums: playedNums,
+            winnedNums: winnedNums,
+            xp: xp,
+            winnedVolume: winnedVolume,
+            playedVolume: playedVolume,
+            finalRoundReachedNums: finalRoundReachedNums
+        }
+    } catch (e) {
+        console.log(e)
+        return {
+            playedNums: 0,
+            winnedNums: 0,
+            xp: 0,
+            winnedVolume: 0,
+            playedVolume: 0,
+            finalRoundReachedNums: 0
+        }
     }
-    return userStats;
 }
 
 export const getGameStats = async () => {
-    let gameStats = loadDump('/gameStats.json');
-    if (!gameStats) {
-        gameStats = {};
-        saveDump('/gameStats.json', gameStats);
+    try {
+        let query = `SELECT 
+        player, 
+        SUM(r1result) AS r1result, SUM(r2result) AS r2result, SUM(r3result) AS r3result, SUM(r4result) AS r4result, 
+        SUM(winned) AS winned, 
+        SUM(r1BnnUse) AS r1BnnUse, SUM(r2BnnUse) AS r2BnnUse, SUM(r3BnnUse) AS r3BnnUse, SUM(r4BnnUse) AS r4BnnUse,
+        COUNT(player) AS plays 
+         FROM gamehistory WHERE TIMESTAMP> UNIX_TIMESTAMP(NOW())-86400 GROUP BY player ORDER BY winned DESC LIMIT 100`;
+        let [rows, fields] = await promisePool.query(query);
+        let dayResult = rows as any[];
 
+        query = `SELECT player, SUM(r1result) AS r1result, SUM(r2result) AS r2result, SUM(r3result) AS r3result, SUM(r4result) AS r4result, 
+        SUM(winned) AS winned, SUM(r1BnnUse) AS r1BnnUse, SUM(r2BnnUse) AS r2BnnUse, SUM(r3BnnUse) AS r3BnnUse, SUM(r4BnnUse) AS r4BnnUse,
+        COUNT(player) AS plays  
+         FROM gamehistory WHERE TIMESTAMP> UNIX_TIMESTAMP(NOW())-86400*7 GROUP BY player ORDER BY winned DESC LIMIT 100`;
+        [rows, fields] = await promisePool.query(query);
+        let weekResult = rows as any[];
+
+        query = `SELECT player, SUM(r1result) AS r1result, SUM(r2result) AS r2result, SUM(r3result) AS r3result, SUM(r4result) AS r4result, 
+        SUM(winned) AS winned, SUM(r1BnnUse) AS r1BnnUse, SUM(r2BnnUse) AS r2BnnUse, SUM(r3BnnUse) AS r3BnnUse, SUM(r4BnnUse) AS r4BnnUse,
+        COUNT(player) AS plays  
+         FROM gamehistory GROUP BY player ORDER BY winned DESC LIMIT 100`;
+        [rows, fields] = await promisePool.query(query);
+        let totalResult = rows as any[];
+
+        return {
+            day: dayResult,
+            week: weekResult,
+            total: totalResult
+        }
+
+    } catch (e) {
+        console.log(e)
+        return {
+            day: [],
+            week: [],
+            total: []
+        }
     }
-    return gameStats;
 }
+
+// export const getGameStats = async () => {
+//     let gameStats = loadDump('/gameStats.json');
+//     if (!gameStats) {
+//         gameStats = {};
+//         saveDump('/gameStats.json', gameStats);
+//     }
+//     return gameStats;
+// }
 
 export const getGamePlayHistory = async () => {
-    let gameHistory = loadDump('/gameHistory.json');
-    if (!gameHistory) {
-        gameHistory = {};
-        saveDump(`/gameHistory.json`, gameHistory);
+    try {
+        let query = `SELECT * FROM gamehistory`;
+        let [rows, fields] = await promisePool.query(query);
+        let result = rows as any[]
+        return result;
+    } catch (e) {
+        console.log(e)
+        return []
     }
-    let gameHistoryArrayData: any[] = [];
-    for (let timestamp in gameHistory) {
-
-        let temp = gameHistory[timestamp];
-        temp['timestamp'] = timestamp;
-        gameHistoryArrayData.push(temp);
-    }
-    let gameHistoryReturnedData = gameHistoryArrayData.sort((item1, item2) => {
-        return item1.timestamp > item2.timestamp ? 1 : -1
-    }).slice(-100);
-    return gameHistoryReturnedData;
 }
+
 
 export const gamePlayListener = async (io: Server) => {
 
 
-    const logListener = solConnection.onLogs(GAME_POOL, async (logs, ctx) => {
+    // const logListener = 
+    solConnection.onLogs(GAME_POOL, async (logs, ctx) => {
 
         let sign = logs.signature;
         console.log("new play >> ", sign)
@@ -244,7 +323,7 @@ export const playGameEventHandler = async (sign: string, io: Server) => {
         let gamePool = (await program.account.gamePool.fetch(GAME_POOL)) as unknown as GamePool;
         let members = gamePool.members.toNumber();
         // let players = gamePool.players;
-        let bananaUsage: number[][] = [[], [], [], []];
+        let bananaUsage: number[][] = [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []];
         let round1Result: number[] = [];
         let round2Result: number[] = [];
         let round3Result: number[] = [];
@@ -258,9 +337,9 @@ export const playGameEventHandler = async (sign: string, io: Server) => {
             for (let j = 0; j < gamePool.bananaUsage[i].length; j++) {
                 // bananaUsage[i][j] = gamePool.bananaUsage[i][j].toNumber();
                 let bnn = gamePool.bananaUsage[i][j].toNumber()
-                console.log(i, j, " >>> ", bnn);
+                // console.log(i, j, " >>> ", bnn);
                 bananaUsage[i].push(gamePool.bananaUsage[i][j].toNumber());
-                console.log(bananaUsage, ">> banana usage")
+                // console.log(bananaUsage, ">> banana usage")
             }
             players.push(gamePool.players[i].toBase58());
             playerXp.set(gamePool.players[i].toBase58(), 0);
@@ -310,62 +389,107 @@ export const playGameEventHandler = async (sign: string, io: Server) => {
                 winner: winner
             };
 
-            // store game history data
             let timestamp = testtxs?.blockTime as number;
-            let gameHistory = loadDump('/gameHistory.json');
-            if (!gameHistory) gameHistory = {};
-            gameHistory[timestamp] = {
-                players: players,
-                winner: winner,
-                bananaUsage: bananaUsage,
-                round1Result: round1Result,
-                round2Result: round2Result,
-                round3Result: round3Result,
-                round4Result: round4Result,
-                transaction: sign
-            };
-            saveDump(`/gameHistory.json`, gameHistory);
 
-            let gameHistoryArrayData: any[] = [];
-            let dayPlays = 0;
-            let weekPlays = 0;
-            for (let timestamp in gameHistory) {
 
-                let temp = gameHistory[timestamp];
-                temp['timestamp'] = timestamp;
-                gameHistoryArrayData.push(temp);
-                if (curTime - parseInt(timestamp) <= 86400) {
-                    dayPlays += 1;
+            // 
 
-                }
-                if (curTime - parseInt(timestamp) <= 86400 * 7) {
-                    weekPlays += 1;
-                }
+            playerXp.set(players[round4Result[0]], 50);
+            for (let i = 0; i < round3Result.length; i++) {
+                const player = players[round3Result[i]];
+                if ((playerXp.get(player) as number) == 0) playerXp.set(player, 30)
             }
-            let gameHistoryReturnedData = gameHistoryArrayData.sort((item1, item2) => {
-                return item1.timestamp > item2.timestamp ? 1 : -1
-            }).slice(-100);
-
-            // store game stats data
-            let gameStats = loadDump('/gameStats.json');
-            if (!gameStats) gameStats = {};
-            gameStats = {
-                dayPlays: dayPlays,
-                weekPlays: weekPlays,
-                totalPlays: totalPlays
+            for (let i = 0; i < round2Result.length; i++) {
+                const player = players[round2Result[i]];
+                if ((playerXp.get(player) as number) == 0) playerXp.set(player, 20)
             }
-            saveDump('/gameStats.json', gameStats);
+            for (let i = 0; i < round1Result.length; i++) {
+                const player = players[round1Result[i]];
+                if ((playerXp.get(player) as number) == 0) playerXp.set(player, 10)
+            }
+            for (let i = 0; i < players.length; i++) {
+                const player = players[i];
+                if ((playerXp.get(player) as number) == 0) playerXp.set(player, 5)
+            }
+
+            console.log(round1Result, "round1Result")
+            console.log(round2Result, "round2Result")
+            console.log(round3Result, "round3Result")
+            console.log(round4Result, "round4Result")
+
+            let query = `INSERT INTO gamehistory (transaction, timestamp, player, r1result, r2result, r3result, r4result, winned, r1BnnUse, r2BnnUse, r3BnnUse, r4BnnUse) VALUES`;
+            for (let index = 0; index < members; index++) {
+                const player = players[index];
+                let r1result = round1Result.includes(index) ? 1 : 0;
+                let r2result = round2Result.includes(index) ? 1 : 0;
+                let r3result = round3Result.includes(index) ? 1 : 0;
+                let r4result = round4Result.includes(index) ? 1 : 0;
+                query += ` ('${sign}', ${timestamp}, '${player}', ${r1result}, ${r2result}, ${r3result}, ${r4result}, ${winner == player ? 1 : 0}, ${bananaUsage[index][0]}, ${bananaUsage[index][1]}, ${bananaUsage[index][2]}, ${bananaUsage[index][3]}),`
+            }
+            query = query.slice(0, -1);
+            let returned = await promisePool.query(query);
+
+
+            console.log(returned, " >> returned");
+
+            // return;
+
+            // store game history data
+
+            // let gameHistory = loadDump('/gameHistory.json');
+            // if (!gameHistory) gameHistory = {};
+            // gameHistory[timestamp] = {
+            //     players: players,
+            //     winner: winner,
+            //     bananaUsage: bananaUsage,
+            //     round1Result: round1Result,
+            //     round2Result: round2Result,
+            //     round3Result: round3Result,
+            //     round4Result: round4Result,
+            //     transaction: sign
+            // };
+            // saveDump(`/gameHistory.json`, gameHistory);
+
+            // let gameHistoryArrayData: any[] = [];
+            // let dayPlays = 0;
+            // let weekPlays = 0;
+            // for (let timestamp in gameHistory) {
+
+            //     let temp = gameHistory[timestamp];
+            //     temp['timestamp'] = timestamp;
+            //     gameHistoryArrayData.push(temp);
+            //     if (curTime - parseInt(timestamp) <= 86400) {
+            //         dayPlays += 1;
+
+            //     }
+            //     if (curTime - parseInt(timestamp) <= 86400 * 7) {
+            //         weekPlays += 1;
+            //     }
+            // }
+            // let gameHistoryReturnedData = gameHistoryArrayData.sort((item1, item2) => {
+            //     return item1.timestamp > item2.timestamp ? 1 : -1
+            // }).slice(-100);
+
+            // // store game stats data
+            // let gameStats = loadDump('/gameStats.json');
+            // if (!gameStats) gameStats = {};
+            // gameStats = {
+            //     dayPlays: dayPlays,
+            //     weekPlays: weekPlays,
+            //     totalPlays: totalPlays
+            // }
+            // saveDump('/gameStats.json', gameStats);
 
             // trigger event with socket
-            let result = {
-                gameHistory: gameHistoryReturnedData,
-                gameStats: gameStats
-            }
+            // let result = {
+            //     // gameHistory: gameHistoryReturnedData,
+            //     gameStats: gameStats
+            // }
 
-            if (io) {
-                io.emit('game_stat', result);
-            }
-            console.log(">> one game ended");
+            // if (io) {
+            //     io.emit('game_stat', result);
+            // }
+            // console.log(">> one game ended");
 
             // fetch user pool data
 
@@ -388,48 +512,42 @@ export const playGameEventHandler = async (sign: string, io: Server) => {
                 if ((playerXp.get(player) as number) == 0) playerXp.set(player, 5)
             }
 
-            let userStats = loadDump('/userStats.json');
-            if (!userStats) userStats = {};
-            await Promise.allSettled(
-                players.map(async (player: string, index: number) => {
-                    const [userPool, _] = await PublicKey.findProgramAddress(
-                        [Buffer.from(USER_DATA_SEED), new PublicKey(player).toBuffer()],
-                        PROGRAM_ID,
-                    );
-                    let userState = await program.account.userPool.fetch(userPool);
-                    let address = (userState.address as any).toBase58();
-                    let playedVolume = (userState.playedVolume as any).toNumber();
-                    let playedNums = (userState.playedNums as any).toNumber();
-                    let playedBanana = (userState.playedBanana as any).toNumber();
-                    let buyedBanana = (userState.buyedBanana as any).toNumber();
-                    let winnedVolume = (userState.winnedVolume as any).toNumber();
-                    let winnedNums = (userState.winnedNums as any).toNumber();
-                    let winnedBanana = (userState.winnedBanana as any).toNumber();
-                    let winnedNft = (userState.winnedNft as any).toNumber();
-                    let winnerLast = (userState.winnerLast as any);
 
-                    userStats[address] = {
-                        address: address,
-                        playedVolume: playedVolume,
-                        playedNums: playedNums,
-                        playedBanana: playedBanana,
-                        buyedBanana: buyedBanana,
-                        winnedVolume: winnedVolume,
-                        winnedNums: winnedNums,
-                        winnedBanana: winnedBanana,
-                        winnedNft: winnedNft,
-                        winnerLast: winnerLast,
-                        xp: userStats[address] ? userStats[address].xp + playerXp.get(address) : playerXp.get(address),
-                        pfp: userStats[address].php ? userStats[address].php : "https://www.arweave.net/GfqxhJsdU9YApXUKjZKgYhS0S2zGjIVzkF6K6MwZc18?ext=png"
-                    }
 
-                })
-            );
-            saveDump('/userStats.json', userStats);
 
-            if (io) {
-                io.emit('user_stat', userStats);
+            for (let i = 0; i < players.length; i++) {
+                query = ``;
+                let player = players[i];
+                const [userPool, _] = await PublicKey.findProgramAddress(
+                    [Buffer.from(USER_DATA_SEED), new PublicKey(player).toBuffer()],
+                    PROGRAM_ID,
+                );
+                let userState = await program.account.userPool.fetch(userPool);
+                let address = (userState.address as any).toBase58();
+                let playedVolume = (userState.playedVolume as any).toNumber();
+                let playedNums = (userState.playedNums as any).toNumber();
+                let playedBanana = (userState.playedBanana as any).toNumber();
+                let buyedBanana = (userState.buyedBanana as any).toNumber();
+                let winnedVolume = (userState.winnedVolume as any).toNumber();
+                let winnedNums = (userState.winnedNums as any).toNumber();
+                let winnedBanana = (userState.winnedBanana as any).toNumber();
+                let winnedNft = (userState.winnedNft as any).toNumber();
+                let winnerLast = (userState.winnerLast as any);
+
+
+                // -------------------
+                let defaultPfp = "https://www.arweave.net/GfqxhJsdU9YApXUKjZKgYhS0S2zGjIVzkF6K6MwZc18?ext=png";
+                query = ` UPDATE users SET playedVolume=${playedVolume}, playedNums=${playedNums}, playedBanana=${playedBanana}, buyedBanana=${buyedBanana}, winnedVolume=${winnedVolume}, winnedNums=${winnedNums}, winnedBanana=${winnedBanana}, winnedNft=${winnedNft}, xp=xp+${playerXp.get(address)}, pfp=IF(pfp IS NULL or '', '${defaultPfp}', pfp) WHERE address='${address}';`
+
+                returned = await promisePool.query(query);
+                console.log(returned)
             }
+
+
+
+            // if (io) {
+            //     io.emit('user_stat', userStats);
+            // }
         }
 
         if (io) {

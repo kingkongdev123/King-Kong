@@ -13,14 +13,17 @@ import GameStatusShow from './gameStatusShow';
 import GameRoundShow from './gameRoundShow';
 import { sleep } from '../../context/utils';
 
+interface Props {
+    gameState: any
+}
 
-
-const Content = () => {
+const Content = (props: Props) => {
     const [showStatus, setShowStatus] = React.useState('landing');
     // const [player1Address, setPlayer1Address] = React.useState("");
     // const [player2Address, setPlayer2Address] = React.useState("");
     // const [player1Pfp, setPlayer1Pfp] = React.useState("");
     // const [player2Pfp, setPlayer2Pfp] = React.useState("");
+    const [gameState, setGameState] = React.useState<any>();
     const [round, setRound] = React.useState(0);
     const [gameData, setGameData] = React.useState<any>();
     const [pfps, setPfps] = React.useState<any[]>([]);
@@ -45,7 +48,7 @@ const Content = () => {
             setShowStatus("landing");
         } else {
             setShowStatus("gameRoundShow");
-            await sleep(5000)
+            await sleep(20000)
             if (curGameResult == "lost" || curGameResult == "win") {
                 setShowStatus("landing");
             } else {
@@ -54,6 +57,7 @@ const Content = () => {
         }
     }
     const wallet = useWallet();
+
     React.useEffect(() => {
         if (wallet.connected)
             console.log(wallet.publicKey?.toBase58());
@@ -69,6 +73,8 @@ const Content = () => {
                     showStatus == 'landing' &&
                     <LandingPage
                         setPageStatus={(status: string) => setShowStatus(status)}
+                        gameState={props.gameState}
+
                     />
                 }
                 {

@@ -1,18 +1,21 @@
 .lCharacter {
     position: absolute;
-
-    right: calc(50% + 15px);
-    bottom: -25px;
-    height: 100%;
+    right: calc(50% + 120px);
+    bottom: 50px;
+    /* height: calc(100% - 150px); */
+    width: 40%;
+    max-height: calc(100% - 150px);
     z-index: 10;
 }
 
 .rCharacter {
     position: absolute;
 
-    left: calc(50% + 15px);
-    bottom: -25px;
-    height: 100%;
+    left: calc(50% + 100px);
+    bottom: 50px;
+    /* height: calc(100% - 150px); */
+    width: 40%;
+    max-height: calc(100% - 150px);
     z-index: 10;
 }
 
@@ -49,69 +52,92 @@
     background: radial-gradient(50% 50% at 50% 50%, #15C7FF 0%, #0092C0 31.77%, #01003C 100%);
 }
 
+.chest {
+    position: absolute;
+    z-index: 40;
+    bottom: 30px;
+    right: calc(50% - 270px);
+    width: 540px;
+}
 .kkText {
     position: absolute;
     z-index: 30;
-    top: calc(50% - 160px);
-    right: calc(50% - 160px);
-    width: 320px;
+    top: calc(50% - 300px);
+    right: calc(50% - 120px);
+    width: 240px;
 }
 
 .kkText2 {
     position: absolute;
     z-index: 30;
-    top: calc(50% - 250px);
-    right: calc(50% - 160px);
-    width: 320px;
+    top: 20px;
+    /* calc(50% - 280px); */
+    right: calc(50% - 120px);
+    width: 240px;
 }
 
 .wltBtnWrapper {
     position: absolute;
     z-index: 50;
-    bottom: 90px;
-    right: calc(50% - 180px);
-    width: 360px;
-    height: 70px;
+    bottom: 20px;
+    right: calc(50% - 200px);
+    width: 400px;
+    height: 80px;
+}
+
+.entryFeeLabelWrapper {
+    position: absolute;
+    right: calc(50% - 87px);
+    top: -30px;
+    height: 50px;
+    background: #012663;
+    border: 3px solid #41F355;
+    border-radius: 13px;
+}
+
+.enteryFeeLabel {
+    background: linear-gradient(180deg, #FFF0BB 0%, #EFB660 100%);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+text-fill-color: transparent;
+font-family: 'Lilita One';
+font-style: normal;
+font-weight: 400;
+font-size: 40px;
+text-align: center;
+color: #69F0AE;
+padding: 0 25px;
 }
 
 .landingBtn {
-    position: absolute;
+    
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 360px;
-    height: 70px;
-    background: linear-gradient(180deg, #FFE8AD 4.69%, #FFB800 26.04%, #FF9040 78.65%, #E464A2 100%);
+    width: 420px;
+    height: 80px;
+    background: linear-gradient(180deg, #48FA5C 0%, #05B019 4.69%, #007313 95.31%, #005111 100%);
     box-shadow: 0px 12px 2px rgba(0, 0, 0, 0.45);
     border-radius: 14px;
     font-family: 'Lilita One';
     font-style: normal;
     font-weight: 400;
-    font-size: 42px;
+    font-size: 40px;
     text-align: center;
-    color: #58143D;
     cursor: pointer;
+    color: #FFF8E0;
 }
 
 .landingBtn:active {
     box-shadow: none;
 }
 
-.enteryFeeLabel {
-    font-family: 'Lilita One';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 42px;
-    line-height: 59px;
-    text-align: center;
-    color: #69F0AE;
-    position: absolute;
-    top: 80px;
-    right: calc(50% - 48px);
-}
-
 .starWrapper {
-    margin: 25px 0 50px;
+    margin: 0;
+    padding: 25px 0 50px;
+    background: linear-gradient(180deg, #8700C7 0%, #420084 100%);
+border-radius: 28px;
 }
 
 .starIcon {
@@ -122,33 +148,56 @@
 }
 
 .loading {
-    font-family: 'Work Sans';
-    font-style: normal;
-    font-weight: 700;
-    font-size: 32px;
-    line-height: 38px;
-    text-align: center;
-    margin: 0;
+font-family: 'Lilita One';
+font-style: normal;
+font-weight: 400;
+font-size: 42px;
+line-height: 48px;
+text-align: center;
+background: linear-gradient(180deg, #FFF0BB 0%, #EFB660 100%);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+text-fill-color: transparent;
 }
 
 .prePlayWrapper {
-    width: 100%;
-    display: flex;
-
-    justify-content: space-between;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  background: linear-gradient(180deg, #8700C7 0%, #420084 100%);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.45);
+  border-radius: 28px;
+  padding: 25px;
 }
 
 .prePlayWrapper>div {
-    width: 50%;
+    
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
 
+.prePlayWrapper>div:first-child { 
+    margin-right: 25px;
+}
+
+.prePlayWrapper>div:last-child { 
+    margin-left: 25px;
+}
+/* 
+.prePlayWrapper2 {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+} */
+
 .userNftsSelectPanel {
     position: relative;
-    width: calc(100% - 64px);
-    margin: 50px 32px;
+    width: 390px;
+    /* calc(100% - 64px); */
+    margin: 30px 0 10px 0;
 }
 
 .selectNftLeftArrow {
@@ -167,41 +216,68 @@
 
 .userNFTsImgWrapper {
     margin: auto;
-    width: 150px;
-    height: 150px;
+    width: 280px;
+    height: 280px;
 }
 
 .imgAvatar {
-    width: 150px;
-    height: 150px;
+    width: 280px;
+    height: 280px;
+    border-radius: 24px;
 }
 
-.bnnPanel {
+.roundSelectPanel {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     margin: 30px 0;
 }
 
 .nftNameLabel {
     margin: 12px auto 0;
-    font-family: 'Work Sans';
-    font-style: normal;
-    font-weight: 700;
-    font-size: 24px;
-    line-height: 28px;
     text-align: center;
-    color: #323232;
+    font-family: 'Lilita One';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 48px;
+    background: linear-gradient(180deg, #FFF0BB 0%, #EFB660 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
 }
 
-
-.buyBnnItemWrapper {
-    width: 170px;
-    height: 170px;
+.bnnRoundSelected {
+    background: linear-gradient(180deg, #48FA5C 0%, #05B019 4.69%, #007313 95.31%, #005111 100%) !important;
+}
+.roundSelectItem {
+    background: linear-gradient(180deg, #FFE59E 0%, #FFA800 4.69%, #FDA800 95.31%, #7E5400 100%);
+    box-shadow: 0px 12px 2px rgba(0, 0, 0, 0.25);
+    border-radius: 28px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    border-radius: 8px;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Lilita One';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 64px;
+    color: #6F00D0;
+    width: calc(20% - 20px);
+    aspect-ratio: 1;
+    cursor: pointer;
+}
+
+.roundSelectItem:active { 
+box-shadow: none;
+}
+
+.noneLabel {
+    font-family: 'Lilita One';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    text-align: center;
+    margin-top: 10px;
 }
 
 .bottomBtn {
@@ -221,15 +297,21 @@
 }
 
 .dialogSubTitle {
-    font-family: 'Work Sans';
-    font-style: normal;
-    font-weight: 700;
-    font-size: 32px;
-    line-height: 38px;
-    text-align: center;
-    color: #323232;
-    margin: 0;
+  font-family: 'Lilita One';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 40px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #FFF8E0;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+  margin: 0;
 }
+
+.subTitle {
+  margin-left: 10px;
+} 
 
 .bnnIcon {
     display: flex;
@@ -255,26 +337,31 @@
 
 .startBtnWrapper {
     width: 100%;
-    margin: 30px auto;
+    margin: 0 auto 0;
+    padding-top: 50px;
     align-items: center;
     display: flex;
     justify-content: center;
 }
 
 .startBtn {
-    height: 50px;
+    text-transform: uppercase;
     cursor: pointer;
-    border: none;
-    background: #FFFFFF;
-    border-radius: 8px;
-    font-family: 'Work Sans';
+    background: linear-gradient(180deg, #48FA5C 0%, #05B019 4.69%, #007313 95.31%, #005111 100%);
+    box-shadow: 0px 12px 2px rgba(0, 0, 0, 0.45);
+    border-radius: 14px;
+    font-family: 'Lilita One';
     font-style: normal;
-    font-weight: 700;
-    font-size: 24px;
-    line-height: 28px;
+    font-weight: 400;
+    font-size: 42px;
+    line-height: 48px;
     text-align: center;
-    text-decoration-line: underline;
-    color: #000000
+    color: #FFF8E0;
+    padding: 25px 30px;
+}
+
+.startBtn:active {
+    box-shadow: none;
 }
 
 .showSelectAvatarDialog>div {
@@ -345,4 +432,285 @@
     width: 150px;
     height: 50px;
     cursor: pointer;
+    background: linear-gradient(180deg, #48FA5C 0%, #05B019 4.69%, #007313 95.31%, #005111 100%);
+    box-shadow: 0px 5.85px 0.975px rgba(0, 0, 0, 0.45);
+    border-radius: 8px;
+    
+    font-family: 'Lilita One';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    
+    text-align: center;
+    color: #FFF8E0;
+}
+
+.loadingWrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+.diabledBtn {
+    cursor: no-drop;
+}
+
+.buyBnnBtn {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 140px;
+    height: 75px;
+    background: linear-gradient(180deg, #FFE8AD 4.69%, #FFB800 26.04%, #FF9040 78.65%, #E464A2 100%);
+    box-shadow: 0px 12px 2px rgba(0, 0, 0, 0.45);
+    border-radius: 14px;
+    font-family: 'Lilita One';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    text-align: center;
+    color: #58143D;
+    cursor: pointer;
+    right: 64px;
+    top: 23px;
+    z-index: 1000;
+}
+
+.buyBnnBtn:active {
+    box-shadow: none;
+}
+
+.landingBtnWrapper {
+    position: relative;
+}
+
+.orderNumWrapper {
+    background: linear-gradient(180deg, rgba(255, 240, 187, 0.3) 0%, rgba(239, 182, 96, 0.3) 100%);
+    border-radius: 50%;
+    width: 62px;
+    height: 62px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.orderNum {
+  background: linear-gradient(180deg, #FFC700 0%, #FF9900 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+  font-family: 'Lilita One';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 40px;
+}
+
+.verticalDivider {
+    width: 1px;
+    height: 420px;
+    background: linear-gradient(0deg, rgba(255,255,255,0) 0%, rgba(222,204,178,1) 50%, rgba(255,255,255,0) 100%);
+    opacity: 0.6;
+    margin-bottom: 20px;
+}
+
+.note {
+    width: 100%;
+    padding: 10px 40px;
+    background: rgba(28, 36, 45, 0.3);
+    opacity: 0.8;
+    box-shadow: 0px 6px 2px rgba(0, 0, 0, 0.1);
+    border-radius: 28px;
+    font-family: 'Lilita One';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 23px;
+    text-align: center;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #DECCB2;
+}
+.rewardImgWrapper {
+    width: 350px;
+    height: 350px;
+    display: flex;
+ justify-content: center;
+ align-items: center;
+
+    background: radial-gradient(50% 50% at 50% 50%, #FFBE0B 0%, rgba(255, 190, 11, 0) 100%);
+}
+
+.closeIcon {
+    height: 50%;
+    aspect-ratio: 1;
+}
+
+@media (max-width: 1000px) {
+    .kkText, .kkText2 {
+        top: 20px;
+        right: calc(50% - 70px);
+        width: 140px;
+    }
+
+    .chest {
+        bottom: 50px;
+        /* right: calc(50% - 150px);
+        width: 300px; */
+        width: 30%;
+        right: 35%;
+    }
+    
+.wltBtnWrapper {   
+    bottom: 20px;
+    right: calc(50% - 100px);
+    width: 200px;
+    /* height: 80px; */
+    height: auto;
+}
+
+.entryFeeLabelWrapper {
+    right: calc(50% - 55px);
+    top: -20px;
+    height: 25px;
+    background: #012663;
+    border: 1.5px solid #41F355;
+    border-radius: 6px;
+}
+.enteryFeeLabel {
+    font-size: 18px;
+}
+
+
+.landingBtn {    
+    width: 200px;
+    height: 50px;
+    border-radius: 8px;
+    font-size: 20px;
+}
+.lCharacter {
+    position: absolute;
+    right: calc(50% + 80px);
+    bottom: 20px;
+    /* height: calc(100% - 150px); */
+    z-index: 10;
+}
+
+.rCharacter {
+    position: absolute;
+
+    left: calc(50% + 70px);
+    bottom: 20px;
+    /* height: calc(100% - 150px); */
+    z-index: 10;
+}
+
+.playDialogContainer {
+    display: flex;
+    /* flex-direction: column; */
+}
+.startBtnWrapper {
+    width: auto;
+    margin-left: 15px;
+}
+.startBtn {
+    font-size: 20px;
+    border-radius: 8px;
+    padding: 10px;
+    line-height: 23px;
+}
+    .prePlayWrapper {
+        width: calc(100% - 95px);
+        border-radius: 18px;
+        padding: 15px 20px;
+    }
+  
+  .prePlayWrapper>div:first-child { 
+      margin-right: 20px;
+  }
+  
+  .prePlayWrapper>div:last-child { 
+      margin-left: 20px;
+  }
+
+ 
+.dialogSubTitle {
+    font-size: 22px;
+  }
+ 
+.orderNumWrapper {
+    border-radius: 50%;
+    width: 34px;
+    height: 34px;
+    min-width: 34px;
+    min-height: 34px;
+}
+
+.orderNum {
+  font-size: 22px;
+}
+
+.userNftsSelectPanel {
+    width: 250px;
+    margin: 30px 0 10px 0;
+}
+
+.userNFTsImgWrapper {
+    margin: auto;
+    width: 150px;
+    height: 150px;
+}
+
+.imgAvatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 14px;
+}
+
+.nftNameLabel {
+    
+    font-size: 30px;
+    line-height: 34px;
+}
+
+.verticalDivider {
+    width: 2px;
+    height: 250px;
+    
+}
+
+.roundSelectPanel {
+    margin: 0;
+}
+
+.roundSelectItem {
+    border-radius: 17px;
+    font-size: 30px;
+    color: #6F00D0;
+    width: calc(20% - 10px);
+    aspect-ratio: 1;
+    cursor: pointer;
+}
+
+.closeIcon {
+    width: 27px;
+    height: 27px;
+}
+
+.noneLabel {
+    font-size: 16px;
+    margin-top: 6px;
+}
+
+.note {
+    width: 100%;
+    padding: 10px 30px;
+    background: rgba(28, 36, 45, 0.8);    
+    border-radius: 17px;
+    font-size: 16px;
+    line-height: 18px;
+    letter-spacing: 0.06em;
+}
+
 }

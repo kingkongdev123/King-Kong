@@ -13,12 +13,14 @@ import {
 const Footer = () => {
 
     return (
-        <>
-            <div className={styles.container}>
-                © 2022, No house edge community NFT Sol gaming
-            </div>
 
-        </>
+        <div className={styles.container}>
+            <p className={styles.footerText}>
+                © 2022, No house edge community NFT Sol gaming
+            </p>
+        </div>
+
+
     )
 }
 

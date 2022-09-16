@@ -41,7 +41,44 @@ export const getOwnerOfNFT = async (nftMintPk: PublicKey, connection: Connection
   return new PublicKey("");
 }
 
+
+export const isTokenExist = async (mintPk: PublicKey, userPk: PublicKey, connection: Connection): Promise<boolean> => {
+  try {
+    let tokenAccount = await connection.getProgramAccounts(
+      TOKEN_PROGRAM_ID,
+      {
+        filters: [
+          {
+            dataSize: 165
+          },
+          {
+            memcmp: {
+              offset: 0,
+              bytes: mintPk.toBase58()
+            }
+          },
+          {
+            memcmp: {
+              offset: 32,
+              bytes: userPk.toBase58()
+            }
+          },
+        ]
+      }
+    );
+
+    if (tokenAccount && tokenAccount.length > 0) return true;
+    else return false;
+    // return tokenAccount[0].pubkey;
+  } catch (e) {
+    console.log(e)
+    return false
+
+  }
+}
+
 export const getTokenAccount = async (mintPk: PublicKey, userPk: PublicKey, connection: Connection): Promise<PublicKey> => {
+
   let tokenAccount = await connection.getProgramAccounts(
     TOKEN_PROGRAM_ID,
     {
@@ -64,7 +101,11 @@ export const getTokenAccount = async (mintPk: PublicKey, userPk: PublicKey, conn
       ]
     }
   );
+
+  // if (tokenAccount && tokenAccount.length > 0) return tokenAccount[0].pubkey;
+  // else return;
   return tokenAccount[0].pubkey;
+
 }
 
 export const getNFTTokenAccount = async (nftMintPk: PublicKey, connection: Connection): Promise<PublicKey> => {

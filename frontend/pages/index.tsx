@@ -5,8 +5,20 @@ import Content from '../components/content/content'
 import Footer from '../components/navbar/footer'
 import TopBar from '../components/navbar/topbar'
 import styles from '../styles/Home.module.css'
-
+import React from 'react';
+import { getGameState } from '../context/script'
 const Home: NextPage = () => {
+  const [gameState, setGameState] = React.useState<any>()
+
+  const fetchGameStateData = async () => {
+    let gameStateTmp = await getGameState();
+    setGameState(gameStateTmp)
+
+
+  }
+  React.useEffect(() => {
+    fetchGameStateData()
+  }, [])
   return (
     <div className={styles.container}>
       <Head>
@@ -15,8 +27,8 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <TopBar />
-      <Content />
+      <TopBar gameState={gameState} />
+      <Content gameState={gameState} />
       <Footer />
 
     </div>

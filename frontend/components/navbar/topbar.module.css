@@ -1,15 +1,16 @@
 .container {
     width: 100%;
-    height: 100px;
+    height: 80px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 50px;
+    padding: 0 20px;
     font-family: 'Work Sans';
     font-style: normal;
     font-weight: 500;
     font-size: 28px;
-    background: #CDCDCD;
+    background: linear-gradient(180deg, #8700C7 0%, #420084 100%);
+    box-shadow: 0px 6px 1px rgba(0, 0, 0, 0.25);
 }
 
 .container>span,
@@ -19,9 +20,35 @@
     cursor: pointer;
 }
 
-.icon {
+.iconWrapper {
+    position: relative;
+}
+
+.icon, .icon2  {
     display: flex;
     align-items: center;
+    width: 64px;
+    height: 64px;
+    position: relative;
+}
+
+
+.iconLabel, .iconLabel2 {
+position: absolute;
+right: -5px;
+bottom: -5px;
+background: #C00000;
+border: 3px solid #FFF7E6;
+box-shadow: 3px 5px 1px rgba(0, 0, 0, 0.6);
+border-radius: 4px;
+
+font-family: 'Lilita One';
+font-style: normal;
+font-weight: 400;
+font-size: 28px;
+line-height: 24px;
+text-align: right;
+color: #FFFFFF;
 }
 
 .detailMode {
@@ -32,4 +59,455 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.flexColume {
+    display: flex;
+    flex-direction: column;
+}
+
+.totalPlayLabel {
+    background: linear-gradient(180deg, #FFC700 0%, #FF9900 100%);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+text-fill-color: transparent;
+
+font-family: 'Lilita One';
+font-style: normal;
+font-weight: 400;
+font-size: 28px;
+line-height: 32px;
+}
+
+.totalPlayNums {
+    background: linear-gradient(180deg, #FFF0BB 0%, #EFB660 100%);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+text-fill-color: transparent;
+font-family: 'Lilita One';
+font-style: normal;
+font-weight: 400;
+font-size: 42px;
+line-height: 48px;
+}
+
+.midMenu {
+    font-family: 'Lilita One';
+font-style: normal;
+font-weight: 400;
+font-size: 28px;
+line-height: 32px;
+text-align: center;
+color: #7DB1FF;
+margin: auto 50px;
+position: relative;
+}
+
+.rightMenu > span {
+margin: auto 15px;
+}
+.rightMenu > span:last-child {
+    margin: auto 0 auto 15px ;
+}
+
+.rightMenu > span:first-child {
+margin: auto 15px auto 0;
+}
+
+.solBalance {
+    font-family: 'Lilita One';
+font-style: normal;
+font-weight: 400;
+font-size: 42px;
+text-align: right;
+background: linear-gradient(180deg, #FFF0BB 0%, #EFB660 100%);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+text-fill-color: transparent;
+}
+
+.solLabel {
+    font-family: 'Lilita One';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 28px;
+    line-height: 32px;
+    text-align: right;
+    background: linear-gradient(180deg, #FFC700 0%, #FF9900 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+}
+
+.visibilityHide {
+    visibility: hidden;
+}
+
+.posRelative {
+    position: relative;
+}
+
+.buyBnnTooltipBody {
+    position: absolute;
+    left: -36px;
+    bottom: -90px;
+    background: linear-gradient(180deg, #FFC700 0%, #FF9900 100%);
+    z-index: 1000;
+    border-radius: 5px;
+    text-transform: uppercase;
+    padding: 10px 15px;
+    font-family: 'Lilita One';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 27px;
+    text-align: center;
+    color: #58143D;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25)) drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.1));
+}
+
+.buyBnnTooltipArrow {
+    position: absolute;
+    left: 14px;
+    bottom: -46px;
+    transform: rotate(45deg);
+    width: 35px;
+    height: 35px;
+    background: #FFC400;
+    z-index: 999;
+    border-radius: 5px;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25)) drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.1));
+}
+
+.bnnIcon {
+    position: relative;
+}
+
+.buyBnnTooltip {
+    display: none;
+    position: absolute;
+}
+
+.bnnIcon:hover .buyBnnTooltip {
+    display: inline-block;
+}
+
+.bnnIcon .buyBnnTooltipBody, .bnnIcon .buyBnnTooltipArrow {
+    display: inline-block;
+}
+
+.prePlayWrapper2 {
+    background: linear-gradient(180deg, #8700C7 0%, #420084 100%);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.45);
+    border-radius: 28px;
+    padding: 30px 50px;
+}
+
+.dialogSubTitle {
+    font-family: 'Lilita One';
+font-style: normal;
+font-weight: 400;
+font-size: 40px;
+line-height: 46px;
+text-align: center;
+margin: 0;
+background: linear-gradient(180deg, #FFC700 0%, #FF9900 100%);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+text-fill-color: transparent;
+text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.dialogDescription {
+    font-family: 'Lilita One';
+font-style: normal;
+font-weight: 400;
+font-size: 20px;
+line-height: 23px;
+display: flex;
+align-items: center;
+text-align: center;
+color: #FFF8E0;
+text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+margin: 0 0 15px 0;
+}
+
+.bnnPanel {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 0 20px 0;
+}
+
+.buyBnnItemWrapper {
+    background: linear-gradient(180deg, #0047FF33 0%, #002FA733 100%);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.45);
+    border-radius: 24px;
+    position: relative;
+    min-width: 170px;
+    cursor: pointer;
+}
+
+.bnnIcon2 {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.selectedWrapper {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 38px;
+    height: 43px;
+    background: rgba(28, 36, 45, 0.2);
+    opacity: 0.8;
+    border-radius: 0px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.closeIcon {
+    position: absolute;
+    right: 8px;
+    top: 8px;
+    cursor: pointer;
+}
+
+.buyBnnSubDescription {
+    text-align: center;
+    margin: 10px 0;
+}
+.bnnPriceLabel {    
+    font-family: 'Lilita One';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 27px;
+    background: linear-gradient(180deg, #BDC0FF 0%, #7D83FF 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+}
+
+.divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(222,204,178,1) 50%, rgba(255,255,255,0) 100%);
+    opacity: 0.6;
+    margin-bottom: 20px;
+}
+
+.inputWrapper {
+width: 100%;
+position: relative;
+height: 48px;
+margin-bottom: 20px;
+}
+
+.customBuyBnnInput {
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    border: none;
+    padding-left: 15px;
+    padding-right: 90px;
+    background: white;
+    color: black;
+    outline: none;
+}
+
+.customBuyBnnInput::-webkit-outer-spin-button,
+.customBuyBnnInput::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+}
+
+.buyBnnAmountBtn {
+    position: absolute;
+    height: 100%;
+    right: 0;
+    color: white;
+    background: #04AC18;
+    border-radius: 0 8px 8px 0;
+    line-height: 48px;
+    padding: 0 10px;
+}
+
+.buyBnnBtn {
+    background: linear-gradient(180deg, #FFE59E 0%, #FFA800 4.69%, #FDA800 95.31%, #7E5400 100%);
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.45);
+    border-radius: 14px;
+    font-family: 'Lilita One';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 27px;
+
+    color: #6F00D0;
+    border: none;
+    width: 100%;
+    height: 48px;
+    cursor: pointer;
+}
+
+.leaderboardContainer {
+    position: absolute;
+    top: 80px;
+    left: 0;
+    width: 100%;
+}
+
+.leaderboardWrapper {
+    max-width: 900px;
+    margin: auto;
+
+}
+
+.leaderboardMenu {
+    height: 65px;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.menuActive {
+    color: white;
+}
+
+.menuActiveSpot {
+    width: 5px;
+    height: 5px;
+    background: linear-gradient(180deg, #FFF0BB 0%, #EFB660 100%);
+    border-radius: 50%;
+    position: absolute;
+    right: 50%;
+    bottom: -10px;
+}
+
+
+@media (max-width: 1000px) {
+    .container {
+    height: 40px;
+    padding: 0 50px;
+    }
+    .totalPlayLabel {
+    font-family: 'Lilita One';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 14px;
+    
+    }
+    .totalPlayNums {
+    font-family: 'Lilita One';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 18px;
+    }
+
+    .solLabel {
+    font-family: 'Lilita One';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 14px;
+
+    }
+
+    .solBalance {
+    font-family: 'Lilita One';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 18px;
+    }
+    .icon {
+        width: 27px;
+        height: 27px;
+    }
+
+    .iconLabel {
+        font-family: 'Lilita One';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 11.5966px;
+        line-height: 14px;
+
+    }
+    .midMenu {        
+        font-family: 'Lilita One';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 18px;
+    }
+
+    
+.prePlayWrapper2 {
+    border-radius: 20px;
+    padding: 20px 30px;
+}
+
+
+.dialogSubTitle {
+font-size: 30px;
+line-height: 34px;
+}
+
+.dialogDescription {
+    font-size: 14px;
+    line-height: 16px;
+}
+
+.icon2 {
+    width: 48px;
+    height: 48px;
+}
+
+.iconLabel2 {
+    font-size: 20px;
+    line-height: 23px;
+    right: -10px;
+    bottom: -10px;
+}
+
+.inputWrapper {
+    height: 36px;
+    }
+
+    .customBuyBnnInput {
+        padding-left: 10px;
+        padding-right: 85px;
+    }
+
+    .buyBnnAmountBtn {
+        line-height: 36px;
+        padding: 0 10px;
+    }
+
+    .buyBnnBtn {
+        font-size: 18px;
+        height: 36px;
+        line-height: 21px;
+    }
+    
+}
+
+@media (max-width: 800px) {
+.container {
+    padding: 0 30px;
+}
+.midMenu {
+    margin: auto 15px;
+}
 }

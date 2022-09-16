@@ -25,11 +25,12 @@ import {
     Transaction,
     Keypair
 } from '@solana/web3.js';
-import { createBuyTokenTx, createClaimBananaForNftHoldersTx, createClaimXprewardTx, createDepositNftEscrowTx, createGamePoolTx, createInitGamePoolTx, createInitializeTx, createInitUserTx, createWithdrawEscrowNftTx, createWithdrawEscrowVolumeTx, gamePlayTx, getClaimRewardTx, getGameState, getUserState } from './script';
+import { createBuyTokenTx, createClaimBananaForNftHoldersTx, createClaimXprewardTx, createDepositNftEscrowTx, createGamePoolTx, createInitGamePoolTx, createInitializeTx, createInitUserIx, createInitUserTx, createWithdrawEscrowNftTx, createWithdrawEscrowVolumeTx, gamePlayTx, getClaimRewardTx, getGameState, getUserState } from './script';
 import { WalletContextState } from '@solana/wallet-adapter-react';
 import { IDL } from './king_kong_game';
 
 import getConfig from 'next/config'
+import { errorAlert } from '../components/toastGroup';
 const { publicRuntimeConfig } = getConfig()
 const cluster = publicRuntimeConfig.SOLANA_NETWORK;
 
@@ -142,8 +143,8 @@ export const initUserPool = async (
         console.log("error occured in initUserPool >> ", e);
     }
 }
-
 export const playGame = async (
+
     wallet: WalletContextState,
 
     round1Banana: number = 0,
@@ -165,12 +166,18 @@ export const playGame = async (
             // return;
         }
 
+        const initUserIx = await createInitUserIx(wallet.publicKey, program);
+
         const tx = await gamePlayTx(round1Banana, round2Banana, round3Banana, round4Banana, wallet.publicKey, program, solConnection);
+
+        tx.add(initUserIx);
 
         let { blockhash } = await provider.connection.getRecentBlockhash("confirmed");
 
         tx.feePayer = (wallet.publicKey as PublicKey);
         tx.recentBlockhash = blockhash;
+
+
 
         if (wallet.signTransaction !== undefined) {
             // const signedTransactions = await wallet.signAllTransactions([tx]);
@@ -287,10 +294,31 @@ export const buyBnn = async (
     try {
 
         if (wallet.publicKey === null) return;
+        let balance = await solConnection.getBalance(wallet.publicKey);
+        let game_data = await getGameState();
+        console.log("balance", balance)
+        console.log("tokenamount : ", tokenAmount)
+        console.log("bnn price : ", game_data)
+
+        if (game_data && game_data.bananaPrice * tokenAmount / game_data.bananaDecimal < balance) {
+
+        } else {
+            console.log("low balanace")
+
+            throw "Low Balance";
+        }
+
         let cloneWindow: any = window;
 
         let provider = new anchor.AnchorProvider(solConnection, cloneWindow['solana'], anchor.AnchorProvider.defaultOptions());
         const program = new anchor.Program(IDL as anchor.Idl, PROGRAM_ID, provider);
+
+        if (!await isInitializedUser(wallet.publicKey, solConnection)) {
+            console.log('User PDA is not Initialized. Should Init User PDA for first usage');
+            await initUserPool(wallet);
+            // return;
+        }
+
 
         const tx = await createBuyTokenTx(tokenAmount, BANANA_TOKEN_MINT, wallet.publicKey, program, solConnection);
 
@@ -308,12 +336,21 @@ export const buyBnn = async (
                 preflightCommitment: 'confirmed',
             })
 
-            await solConnection.confirmTransaction(txId, "finalized");
+            let result = await solConnection.confirmTransaction(txId, "finalized");
+            if (!result.value.err) {
+                console.log("Your transaction signature ", txId)
+                return true;
+            } else {
+                errorAlert("Transaction Failed, Try Again!")
+                return false;
+            }
 
             console.log("Your transaction signature", txId);
         }
     } catch (e) {
         console.log("error occured in buyBnn >>", e);
+        errorAlert(e as string)
+        return false;
     }
 }
 

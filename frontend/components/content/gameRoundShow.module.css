@@ -56,3 +56,114 @@
     background-clip: text;
     text-fill-color: transparent;
 }
+
+.roundLabel {
+    font-family: 'Lilita One';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 46px;
+    color: #FFFFFF;
+    opacity: 0.8;
+    text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.45);
+    position: absolute;
+    right: calc(50% - 90px);
+    top: 30px;
+    text-transform: uppercase;
+}
+
+.leftHealthbarWrapper {
+    width: calc(50% - 120px);
+    height: 16px;
+    position: absolute;
+    left: 40px;
+    top: 20px;
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 10px 100%);
+    display: flex;
+    justify-content: flex-end;
+    border: 0.5px solid #FFAC00;
+    border-radius: 2px;
+    background: transparent;
+}
+
+.leftHealthbarWrapper::after {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 0px;
+    top: 20px;
+    left: 40px;
+    border-left: 1px solid #FFAC00;
+    transform: rotate(327deg) translate(-23px, -40px);
+    transform-origin: left top;
+}
+
+/* .leftHealthbar {
+    position: relative;
+    width: 100%;
+    height: 100%;
+} */
+
+.leftReducingBar {
+    width: 90%;
+    height: 100%;
+    background: red;    
+    transition: width 0.5s linear;
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 10px 100%);
+    position: absolute;
+}
+
+
+.leftRealBar {
+    position: absolute;
+    width: 30%;
+    height: 100%;
+    background: linear-gradient(270deg, #FF9900 1.58%, #98BD33 66.81%, #B6C13B 100%);
+    
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 10px 100%);
+}
+
+
+.rightHealthbarWrapper {
+    width: calc(50% - 120px);
+    height: 16px;
+    position: absolute;
+    right: 40px;
+    top: 20px;
+    clip-path: polygon(0% 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+    display: flex;
+    justify-content: flex-start;
+    border: 0.5px solid #FFAC00;
+    border-radius: 2px;
+    background: rgba(49, 49, 49, 0.8);
+}
+
+.rightHealthbarWrapper::after {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 0px;
+    top: 20px;
+    right: 40px;
+    border-left: 1px solid #FFAC00;
+    transform: rotate(33deg) translate(23px, -40px);
+    transform-origin: right top;
+}
+
+.rightReducingBar {
+    width: 90%;
+    height: 100%;
+    background: red;    
+    transition: width 0.5s linear;
+    clip-path: polygon(0% 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+    position: absolute;
+}
+
+.rightRealBar {
+    position: absolute;
+    width: 30%;
+    height: 100%;
+    background: linear-gradient(270deg, #FF9900 1.58%, #98BD33 66.81%, #B6C13B 100%);
+    
+    clip-path: polygon(0% 0%, 100% 0%, calc(100% - 10px) 100%, 0 100%);
+}

@@ -1,0 +1,923 @@
+kong@1x.png
+size:2047,2042
+filter:Linear,Linear
+pma:true
+scale:0.67
+Albino/Head
+bounds:1622,1437,122,111
+offsets:0,2,122,113
+rotate:90
+Albino/LSholdier
+bounds:543,1697,86,110
+offsets:0,6,100,116
+rotate:90
+Albino/Rshoulder
+bounds:426,1789,79,106
+offsets:1,1,80,107
+rotate:90
+Albino/RshoulderFur
+bounds:1142,1851,87,75
+offsets:0,1,89,77
+Albino/leftAnckle
+bounds:955,645,130,139
+rotate:90
+Albino/leftArm
+bounds:1334,1466,159,105
+offsets:0,0,159,113
+Albino/rightAnckle
+bounds:280,814,120,139
+rotate:90
+Albino/rightArm
+bounds:1549,723,201,123
+offsets:2,1,203,124
+Albino/upperBody
+bounds:2,102,172,243
+offsets:36,25,275,268
+rotate:90
+Black Matter/Head
+bounds:2,1411,122,111
+offsets:0,2,122,113
+rotate:90
+Black Matter/LSholdier
+bounds:1103,1680,87,110
+offsets:0,6,101,116
+rotate:90
+Black Matter/Rshoulder
+bounds:534,1789,79,106
+offsets:1,1,80,107
+rotate:90
+Black Matter/RshoulderFur
+bounds:392,1949,81,63
+offsets:0,1,83,65
+Black Matter/leftAnckle
+bounds:1228,472,133,139
+rotate:90
+Black Matter/leftArm
+bounds:1735,1430,159,105
+offsets:0,0,159,113
+Black Matter/rightAnckle
+bounds:421,806,120,139
+rotate:90
+Black Matter/rightArm
+bounds:1752,713,201,123
+offsets:2,1,203,124
+Black Matter/upperBody
+bounds:247,81,172,243
+offsets:36,25,275,268
+rotate:90
+Black/Head
+bounds:1896,1425,122,110
+offsets:0,2,122,112
+Black/LSholdier
+bounds:1215,1679,87,110
+offsets:0,6,101,116
+rotate:90
+Black/Rshoulder
+bounds:642,1785,79,106
+offsets:1,1,80,107
+rotate:90
+Black/RshoulderFur
+bounds:475,1944,81,63
+offsets:0,1,83,65
+Black/leftAnckle
+bounds:1578,462,133,139
+rotate:90
+Black/leftArm
+bounds:115,1400,159,105
+offsets:0,0,159,113
+Black/rightAnckle
+bounds:562,795,120,139
+rotate:90
+Black/rightArm
+bounds:2,690,201,123
+offsets:2,1,203,124
+Black/upperBody
+bounds:492,76,172,242
+offsets:36,25,275,267
+rotate:90
+Clothing/Camouflage/LArm
+bounds:2,1640,117,90
+Clothing/Camouflage/LBicep
+bounds:710,1866,73,94
+rotate:90
+Clothing/Camouflage/RArm
+bounds:125,1512,147,100
+Clothing/Camouflage/RBicep
+bounds:1868,1812,77,108
+rotate:90
+Clothing/Denim jacket/LArm
+bounds:997,1584,122,94
+Clothing/Denim jacket/Left bicep
+bounds:976,1934,64,82
+rotate:90
+Clothing/Denim jacket/RArm
+bounds:723,1497,156,101
+Clothing/Denim jacket/Right bicep
+bounds:130,1728,82,109
+rotate:90
+Clothing/Gym/Gym
+bounds:1742,137,168,240
+rotate:90
+Clothing/Hawaiian/left bicep
+bounds:1673,1981,59,76
+rotate:90
+Clothing/Hawaiian/right bicep
+bounds:750,1781,82,79
+offsets:0,2,82,81
+Clothing/High vis/High vis
+bounds:1522,150,169,218
+rotate:90
+Clothing/Leather jacket/LArm
+bounds:1510,1566,117,96
+Clothing/Leather jacket/LBicep
+bounds:326,1875,72,101
+rotate:90
+Clothing/Leather jacket/RArm
+bounds:881,1481,145,101
+Clothing/Leather jacket/RBicep
+bounds:1862,1727,83,112
+rotate:90
+Clothing/Purple Hoodie/LArm
+bounds:1863,1537,121,97
+Clothing/Purple Hoodie/LBicep
+bounds:1545,1840,75,107
+rotate:90
+Clothing/Purple Hoodie/RArm
+bounds:274,1507,147,100
+Clothing/Purple Hoodie/RBicep
+bounds:1759,1831,75,107
+rotate:90
+Clothing/Purple Hoodie/hoodeiFrontStrip
+bounds:125,2027,13,98
+rotate:90
+Clothing/orange hoodie/hoodeiFrontStrip
+bounds:125,2027,13,98
+rotate:90
+Clothing/Purple Hoodie/hoodieBack
+bounds:1444,1759,83,95
+rotate:90
+Clothing/Purple Hoodie/hoodieFront
+bounds:429,1870,72,172
+rotate:90
+Clothing/Suit/LArm
+bounds:1740,1538,121,96
+Clothing/Suit/LBicep
+bounds:1757,1748,81,103
+rotate:90
+Clothing/Suit/RArm
+bounds:1028,1480,155,101
+offsets:0,0,156,101
+Clothing/Suit/RBicep
+bounds:1231,1849,73,105
+rotate:90
+Clothing/Varsity/Body inner
+bounds:424,2014,26,80
+rotate:90
+Clothing/Varsity/LArm
+bounds:396,1609,120,92
+Clothing/Varsity/LBicep
+bounds:1669,1910,68,90
+rotate:90
+Clothing/Varsity/RArm
+bounds:423,1500,149,100
+Clothing/Varsity/RBicep
+bounds:1434,1844,74,109
+rotate:90
+Clothing/White robe/Knots
+bounds:1107,176,159,159
+offsets:0,7,159,166
+Clothing/White robe/LArm
+bounds:1121,1583,94,125
+rotate:90
+Clothing/White robe/LArmInner
+bounds:987,2000,40,52
+rotate:90
+Clothing/White robe/LBicep
+bounds:1654,1832,76,103
+rotate:90
+Clothing/White robe/RArm
+bounds:2,1732,80,126
+rotate:90
+Clothing/White robe/RArmInner
+bounds:556,2009,31,52
+rotate:90
+Clothing/White robe/RBicep
+bounds:603,1870,72,105
+rotate:90
+Clothing/capeShoulderPiece/capeShoulderPiece
+bounds:1761,1908,165,70
+fullBody/capeShoulderPiece
+bounds:1761,1908,165,70
+Clothing/orange hoodie/LArm
+bounds:2,1535,121,97
+Clothing/orange hoodie/LBicep
+bounds:2,1816,75,107
+rotate:90
+Clothing/orange hoodie/RArm
+bounds:1185,1475,147,101
+Clothing/orange hoodie/RBicep
+bounds:111,1814,75,107
+rotate:90
+Clothing/orange hoodie/hoodieBack
+bounds:241,1711,83,95
+rotate:90
+Clothing/orange hoodie/hoodieFront
+bounds:968,1860,72,172
+rotate:90
+Clothing/tracksuit/LArm
+bounds:121,1634,116,92
+Clothing/tracksuit/LBicep
+bounds:1338,1845,73,94
+rotate:90
+Clothing/tracksuit/RArm
+bounds:574,1500,147,100
+Clothing/tracksuit/RBicep
+bounds:316,1796,77,108
+rotate:90
+Damascus/Head
+bounds:276,1395,122,110
+offsets:0,2,122,112
+Damascus/LSholdier
+bounds:655,1693,86,110
+offsets:0,6,100,116
+rotate:90
+Damascus/Rshoulder
+bounds:834,1781,79,106
+offsets:1,1,80,107
+rotate:90
+Damascus/RshoulderFur
+bounds:1060,1934,81,64
+offsets:0,1,82,66
+Damascus/leftAnckle
+bounds:408,677,127,139
+rotate:90
+Damascus/leftArm
+bounds:1007,1372,158,106
+offsets:0,0,159,114
+Damascus/rightAnckle
+bounds:703,793,120,139
+rotate:90
+Damascus/rightArm
+bounds:1528,597,201,124
+offsets:2,1,204,125
+Eyes/closed/closed
+bounds:58,2033,34,7
+fullBody/closed
+bounds:58,2033,34,7
+Eyes/cracked/cracked
+bounds:2,2035,27,5
+fullBody/cracked
+bounds:2,2035,27,5
+Eyes/dead/dead
+bounds:225,2027,31,13
+fullBody/dead
+bounds:225,2027,31,13
+Eyes/dollar/dollar
+bounds:298,2025,30,15
+fullBody/dollar
+bounds:298,2025,30,15
+Eyes/fire/fire
+bounds:767,2006,51,34
+fullBody/fire
+bounds:767,2006,51,34
+Eyes/glowing/glowing
+bounds:330,2025,46,15
+fullBody/glowing
+bounds:330,2025,46,15
+Eyes/ice/ice
+bounds:94,2033,29,7
+fullBody/ice
+bounds:94,2033,29,7
+Eyes/lodrFire/lodrFire
+bounds:378,2025,44,15
+fullBody/lodrFire
+bounds:378,2025,44,15
+Eyes/normal_black/normal_black
+bounds:31,2034,25,6
+fullBody/normal_black
+bounds:31,2034,25,6
+Eyes/red/red
+bounds:258,2027,38,13
+fullBody/red
+bounds:258,2027,38,13
+Eyewears/circle/circle
+bounds:610,2009,59,31
+fullBody/circle
+bounds:610,2009,59,31
+Eyewears/nerd/nerd
+bounds:820,2006,64,34
+fullBody/nerd
+bounds:820,2006,64,34
+Eyewears/rave/rave
+bounds:671,2009,58,31
+fullBody/rave
+bounds:671,2009,58,31
+Eyewears/shades/shades
+bounds:886,2005,57,35
+fullBody/shades
+bounds:886,2005,57,35
+Eyewears/vr/vr
+bounds:423,1703,118,84
+fullBody/vr
+bounds:423,1703,118,84
+Golden/Head
+bounds:722,1385,122,110
+offsets:0,2,123,112
+Golden/LSholdier
+bounds:1327,1674,87,110
+offsets:0,6,101,116
+rotate:90
+Golden/Rshoulder
+bounds:1649,1750,80,106
+offsets:1,1,81,107
+rotate:90
+Golden/RshoulderFur
+bounds:1235,1925,81,65
+offsets:0,1,83,66
+Golden/leftAnckle
+bounds:2,429,133,140
+rotate:90
+Golden/leftArm
+bounds:1167,1367,160,106
+offsets:0,0,161,114
+Golden/rightAnckle
+bounds:844,788,120,139
+rotate:90
+Golden/rightArm
+bounds:1731,587,202,124
+offsets:2,1,204,125
+Green/Head
+bounds:1484,1342,122,111
+offsets:0,2,122,113
+Green/LSholdier
+bounds:1439,1670,87,110
+offsets:0,6,101,116
+rotate:90
+Green/Rshoulder
+bounds:942,1779,79,106
+offsets:1,1,80,107
+rotate:90
+Green/RshoulderFur
+bounds:558,1944,81,63
+offsets:0,1,83,65
+Green/leftAnckle
+bounds:353,408,133,139
+rotate:90
+Green/leftArm
+bounds:400,1393,159,105
+offsets:0,0,159,113
+Green/rightAnckle
+bounds:985,777,120,139
+rotate:90
+Green/rightArm
+bounds:205,689,201,123
+offsets:2,1,203,124
+Green/upperBody
+bounds:736,34,172,243
+offsets:36,25,275,268
+rotate:90
+Head/Back
+bounds:1292,1992,66,48
+Head/Back_durag
+bounds:506,2011,48,29
+Head/Bandana Naruto
+bounds:1041,2000,103,40
+Head/Bucket hat
+bounds:1928,1891,96,71
+Head/Cap inner
+bounds:731,2007,33,34
+rotate:90
+Head/Cap outer
+bounds:1318,1924,105,66
+Head/Front
+bounds:1591,1988,80,52
+Head/Front_durag
+bounds:1360,1992,79,48
+Head/Hard hat
+bounds:220,1812,94,77
+Head/Indiana Jones
+bounds:1629,1561,109,97
+Head/Sombrero
+bounds:1248,1578,119,94
+Head/beanieHeadphone
+bounds:641,1944,84,63
+fullBody/beanieHeadphone
+bounds:641,1944,84,63
+Head/king's crown
+bounds:1136,1769,90,80
+fullBody/king's crown
+bounds:1136,1769,90,80
+Head/shardHorn/Albino
+bounds:1751,1980,76,60
+Head/shardHorn/Black
+bounds:1907,1980,76,60
+Head/shardHorn/Black matter
+bounds:1829,1980,76,60
+Head/shardHorn/Damascus
+bounds:2,1971,76,60
+Head/shardHorn/Golden
+bounds:80,1965,76,60
+Head/shardHorn/Green
+bounds:158,1965,76,60
+Head/shardHorn/Iridescence
+bounds:1985,1964,76,60
+rotate:90
+Head/shardHorn/Red
+bounds:236,1963,76,60
+Head/shardHorn/blue
+bounds:314,1963,76,60
+Iridescence/Head
+bounds:1608,1324,122,111
+offsets:0,2,122,113
+Iridescence/LSholdier
+bounds:767,1693,86,110
+offsets:0,6,100,116
+rotate:90
+Iridescence/Rshoulder
+bounds:1228,1768,79,106
+offsets:1,1,80,107
+rotate:90
+Iridescence/RshoulderFur
+bounds:727,1941,81,63
+offsets:0,1,83,65
+Iridescence/leftAnckle
+bounds:912,376,133,139
+rotate:90
+Iridescence/leftArm
+bounds:561,1393,159,105
+offsets:0,0,159,113
+Iridescence/rightAnckle
+bounds:1126,770,120,139
+rotate:90
+Iridescence/rightArm
+bounds:549,668,201,123
+offsets:2,1,203,124
+Iridescence/upperBody
+bounds:981,2,172,244
+offsets:36,25,275,269
+rotate:90
+Red/Head
+bounds:1732,1317,122,111
+offsets:0,2,122,113
+Red/LSholdier
+bounds:879,1691,86,110
+offsets:0,6,100,116
+rotate:90
+Red/Rshoulder
+bounds:1336,1763,79,106
+offsets:1,1,80,107
+rotate:90
+Red/RshoulderFur
+bounds:810,1940,81,63
+offsets:0,1,83,65
+Red/leftAnckle
+bounds:1053,367,133,139
+rotate:90
+Red/leftArm
+bounds:846,1374,159,105
+offsets:0,0,159,113
+Red/rightAnckle
+bounds:1267,741,120,139
+rotate:90
+Red/rightArm
+bounds:752,663,201,123
+offsets:2,1,203,124
+back items/Hiking backpack/Strip
+bounds:1425,1920,66,168
+rotate:90
+back items/Skateboard
+bounds:1268,166,163,252
+rotate:90
+back items/backpack/Bag
+bounds:910,208,157,195
+rotate:90
+back items/backpack/backPackStrip
+bounds:806,1862,72,160
+offsets:0,7,72,167
+rotate:90
+baseSkin/LSholdier
+bounds:991,1691,86,110
+offsets:0,6,100,116
+rotate:90
+blue/LSholdier
+bounds:991,1691,86,110
+offsets:0,6,100,116
+rotate:90
+fullBody/LSholdier
+bounds:991,1691,86,110
+offsets:0,6,100,116
+rotate:90
+baseSkin/Rshoulder
+bounds:1541,1759,79,106
+offsets:1,1,80,107
+rotate:90
+blue/Rshoulder
+bounds:1541,1759,79,106
+offsets:1,1,80,107
+rotate:90
+fullBody/Rshoulder
+bounds:1541,1759,79,106
+offsets:1,1,80,107
+rotate:90
+baseSkin/RshoulderFur
+bounds:893,1936,81,63
+offsets:0,1,82,65
+blue/RshoulderFur
+bounds:893,1936,81,63
+offsets:0,1,82,65
+fullBody/RshoulderFur
+bounds:893,1936,81,63
+offsets:0,1,82,65
+baseSkin/belt
+bounds:2,1893,160,70
+fullBody/belt
+bounds:2,1893,160,70
+baseSkin/cloth
+bounds:1096,636,132,142
+rotate:90
+fullBody/cloth
+bounds:1096,636,132,142
+rotate:90
+baseSkin/head
+bounds:1856,1312,122,111
+offsets:0,2,122,113
+baseSkin/leftAnckle
+bounds:1194,337,133,139
+rotate:90
+blue/leftAnckle
+bounds:1194,337,133,139
+rotate:90
+fullBody/leftAnckle
+bounds:1194,337,133,139
+rotate:90
+baseSkin/leftArm
+bounds:1329,1354,153,110
+offsets:0,0,154,119
+blue/leftArm
+bounds:1329,1354,153,110
+offsets:0,0,154,119
+fullBody/leftArm
+bounds:1329,1354,153,110
+offsets:0,0,154,119
+baseSkin/leftThigh
+bounds:1477,854,119,138
+rotate:90
+fullBody/leftThigh
+bounds:1477,854,119,138
+rotate:90
+baseSkin/rightAnckle
+bounds:1408,732,120,139
+rotate:90
+blue/rightAnckle
+bounds:1408,732,120,139
+rotate:90
+fullBody/rightAnckle
+bounds:1408,732,120,139
+rotate:90
+baseSkin/rightArm
+bounds:2,564,201,124
+offsets:2,1,204,125
+blue/rightArm
+bounds:2,564,201,124
+offsets:2,1,204,125
+fullBody/rightArm
+bounds:2,564,201,124
+offsets:2,1,204,125
+baseSkin/rightThigh
+bounds:1753,307,145,147
+rotate:90
+fullBody/rightThigh
+bounds:1753,307,145,147
+rotate:90
+blue/Head
+bounds:2,1287,122,111
+offsets:0,2,122,113
+rotate:90
+common cloth/Belt
+bounds:164,1891,160,70
+common cloth/LThigh/Red
+bounds:2,276,145,147
+rotate:90
+common cloth/LThigh/Violet
+bounds:151,276,145,147
+rotate:90
+common cloth/RThigh/Red
+bounds:1617,848,119,137
+rotate:90
+common cloth/RThigh/Violet
+bounds:1756,838,119,137
+rotate:90
+common cloth/Waist cloth/Aqua green
+bounds:1240,607,132,142
+rotate:90
+common cloth/Waist cloth/Golden
+bounds:1384,598,132,142
+rotate:90
+common cloths/LThigh/Aqua green
+bounds:300,261,145,147
+rotate:90
+common cloths/LThigh/Blue
+bounds:449,255,145,147
+rotate:90
+common cloths/LThigh/Orange
+bounds:598,250,145,147
+rotate:90
+common cloths/RThigh/Aqua green
+bounds:1895,838,119,137
+rotate:90
+common cloths/RThigh/Blue
+bounds:2,817,119,137
+rotate:90
+common cloths/RThigh/Orange
+bounds:141,815,119,137
+rotate:90
+common cloths/Waist cloth/Blue
+bounds:378,543,132,142
+rotate:90
+common cloths/Waist cloth/Purple
+bounds:940,511,132,142
+rotate:90
+common cloths/Waist cloth/red
+bounds:1084,502,132,142
+rotate:90
+holdingItems/Apple
+bounds:1441,1989,51,52
+rotate:90
+holdingItems/Banana
+bounds:338,1705,83,89
+holdingItems/Beer
+bounds:1495,1989,51,94
+rotate:90
+holdingItems/Book
+bounds:1495,1455,125,109
+holdingItems/Drill
+bounds:1150,892,153,118
+holdingItems/Dumbbell
+bounds:747,238,157,161
+rotate:90
+holdingItems/Football
+bounds:1551,1664,93,94
+rotate:90
+holdingItems/Hammer
+bounds:1146,1994,46,144
+rotate:90
+holdingItems/Joystick
+bounds:1143,1928,90,64
+holdingItems/Magnifying glass
+bounds:1747,1655,91,103
+rotate:90
+holdingItems/Phone
+bounds:1050,1779,79,84
+rotate:90
+holdingItems/Ray gun
+bounds:1369,1573,139,95
+holdingItems/Sweet crisp
+bounds:1595,1917,69,72
+rotate:90
+holdingItems/kfc
+bounds:945,2001,40,39
+mouth shapes & expressions/Albino/Blood_Venom
+bounds:1925,1188,122,113
+rotate:90
+mouth shapes & expressions/Albino/Bubble gum
+bounds:522,535,207,131
+mouth shapes & expressions/Albino/Fang
+bounds:1690,969,122,113
+mouth shapes & expressions/Albino/Pencil
+bounds:1814,959,157,113
+mouth shapes & expressions/Albino/Sad
+bounds:2,943,122,113
+mouth shapes & expressions/Albino/Smile
+bounds:126,938,122,113
+mouth shapes & expressions/Albino/Yawning
+bounds:250,936,124,113
+mouth shapes & expressions/Black Matter/Blood_Venom
+bounds:115,1286,122,112
+mouth shapes & expressions/Black Matter/Bubble gum
+bounds:731,530,207,131
+mouth shapes & expressions/Black Matter/Fang
+bounds:239,1281,122,112
+mouth shapes & expressions/Black Matter/Pencil
+bounds:363,1279,157,112
+mouth shapes & expressions/Black Matter/Sad
+bounds:522,1279,122,112
+mouth shapes & expressions/Black Matter/Smile
+bounds:646,1271,122,112
+mouth shapes & expressions/Black Matter/Yawning
+bounds:770,1260,124,112
+mouth shapes & expressions/Black/Blood_Venom
+bounds:896,1258,122,112
+mouth shapes & expressions/Black/Bubble gum
+bounds:1369,464,207,131
+mouth shapes & expressions/Black/Fang
+bounds:1020,1258,122,112
+mouth shapes & expressions/Black/Pencil
+bounds:1144,1253,157,112
+mouth shapes & expressions/Black/Sad
+bounds:1303,1240,122,112
+mouth shapes & expressions/Black/Smile
+bounds:1427,1228,122,112
+mouth shapes & expressions/Black/Yawning
+bounds:1551,1210,124,112
+mouth shapes & expressions/Damascus/Blood_Venom
+bounds:1677,1203,122,112
+mouth shapes & expressions/Damascus/Bubble gum
+bounds:1719,454,207,131
+mouth shapes & expressions/Damascus/Fang
+bounds:1801,1198,122,112
+mouth shapes & expressions/Damascus/Pencil
+bounds:2,1172,157,112
+mouth shapes & expressions/Damascus/Sad
+bounds:161,1167,122,112
+mouth shapes & expressions/Damascus/Smile
+bounds:285,1165,122,112
+mouth shapes & expressions/Damascus/Yawning
+bounds:409,1165,124,112
+mouth shapes & expressions/Golden/Blood_Venom
+bounds:376,936,123,113
+mouth shapes & expressions/Golden/Bubble gum
+bounds:144,423,207,131
+mouth shapes & expressions/Golden/Fang
+bounds:501,928,123,113
+mouth shapes & expressions/Golden/Pencil
+bounds:751,915,157,113
+mouth shapes & expressions/Golden/Sad
+bounds:626,917,123,113
+mouth shapes & expressions/Golden/Smile
+bounds:910,910,123,113
+mouth shapes & expressions/Golden/Yawning
+bounds:1035,899,124,113
+rotate:90
+mouth shapes & expressions/Green/Blood_Venom
+bounds:535,1157,122,112
+mouth shapes & expressions/Green/Bubble gum
+bounds:494,402,207,131
+mouth shapes & expressions/Green/Fang
+bounds:659,1146,122,112
+mouth shapes & expressions/Green/Pencil
+bounds:783,1144,157,112
+mouth shapes & expressions/Green/Sad
+bounds:942,1144,122,112
+mouth shapes & expressions/Green/Smile
+bounds:1066,1139,122,112
+mouth shapes & expressions/Green/Yawning
+bounds:1190,1126,124,112
+mouth shapes & expressions/Iridescence/Blood_Venom
+bounds:1316,1114,122,112
+mouth shapes & expressions/Iridescence/Bubble gum
+bounds:703,397,207,131
+mouth shapes & expressions/Iridescence/Fang
+bounds:1440,1096,122,112
+mouth shapes & expressions/Iridescence/Pencil
+bounds:1564,1089,157,112
+mouth shapes & expressions/Iridescence/Sad
+bounds:1723,1084,122,112
+mouth shapes & expressions/Iridescence/Smile
+bounds:1847,1074,122,112
+mouth shapes & expressions/Iridescence/Yawning
+bounds:2,1058,124,112
+mouth shapes & expressions/Red/Blood_Venom
+bounds:128,1053,122,112
+mouth shapes & expressions/Red/Bubble gum
+bounds:1335,331,207,131
+mouth shapes & expressions/Red/Fang
+bounds:252,1051,122,112
+mouth shapes & expressions/Red/Pencil
+bounds:376,1051,157,112
+mouth shapes & expressions/Red/Sad
+bounds:535,1043,122,112
+mouth shapes & expressions/Red/Smile
+bounds:659,1032,122,112
+mouth shapes & expressions/Red/Yawning
+bounds:783,1030,124,112
+mouth shapes & expressions/blue/Blood venom
+bounds:909,1030,122,112
+mouth shapes & expressions/blue/Bubble gum
+bounds:1544,321,207,131
+mouth shapes & expressions/blue/Fang
+bounds:1033,1025,122,112
+mouth shapes & expressions/blue/Pencil
+bounds:1157,1012,157,112
+mouth shapes & expressions/blue/Sad
+bounds:1316,1000,122,112
+mouth shapes & expressions/blue/Smile
+bounds:1440,982,122,112
+mouth shapes & expressions/blue/Yawning
+bounds:1564,975,124,112
+neck items/Babdana scarf
+bounds:205,556,131,171
+offsets:0,1,131,172
+rotate:90
+neck items/Diamond
+bounds:1852,1636,89,155
+rotate:90
+neck items/Emerald
+bounds:239,1614,89,155
+rotate:90
+neck items/Ruby
+bounds:518,1602,89,155
+rotate:90
+neck items/Sapphire
+bounds:675,1602,89,155
+rotate:90
+neck items/Tool
+bounds:832,1600,89,163
+rotate:90
+neck items/bb scarf/Front
+bounds:1647,1660,88,98
+rotate:90
+neck items/bb scarf/Inner
+bounds:1305,863,117,170
+offsets:1,0,118,176
+rotate:90
+
+kong@1x_2.png
+size:1931,1135
+filter:Linear,Linear
+pma:true
+scale:0.67
+Clothing/Camouflage/Body
+bounds:430,286,218,243
+rotate:90
+Clothing/Camouflage/Pant
+bounds:1387,911,299,222
+Clothing/Denim jacket/Body
+bounds:680,483,210,229
+offsets:0,3,210,232
+Clothing/Football/Barcelona
+bounds:1387,451,258,234
+Clothing/Football/Germany
+bounds:1647,422,258,234
+Clothing/Hawaiian/Body
+bounds:1099,104,216,232
+rotate:90
+Clothing/Leather jacket/Body
+bounds:431,506,206,247
+offsets:0,1,206,248
+rotate:90
+Clothing/Purple Hoodie/Body
+bounds:675,235,210,246
+Clothing/Suit/Pant
+bounds:1096,567,289,229
+Clothing/Suit/body
+bounds:1688,926,207,241
+rotate:90
+Clothing/Varsity/Body
+bounds:892,482,202,245
+Clothing/White robe/Body
+bounds:797,729,297,404
+Clothing/basketball/basketBall
+bounds:238,2,179,259
+offsets:233,142,643,530
+Clothing/capeFront/capeFront
+bounds:2,263,426,433
+Clothing/capeInner/capeInner
+bounds:431,714,364,419
+fullBody/capeInner
+bounds:431,714,364,419
+Clothing/orange hoodie/Body
+bounds:887,234,210,246
+Clothing/tracksuit/Body
+bounds:1099,322,218,243
+Clothing/tracksuit/Pant
+bounds:1387,687,299,222
+Clothing/whiteShirt/whiteShirt
+bounds:2,2,259,234
+rotate:90
+fullBody/whiteShirt
+bounds:2,2,259,234
+rotate:90
+Damascus/upperBody
+bounds:430,111,173,243
+offsets:36,24,276,267
+rotate:90
+Golden/upperBody
+bounds:1333,42,173,242
+offsets:36,25,277,267
+rotate:90
+Red/upperBody
+bounds:1525,248,172,244
+offsets:36,25,275,269
+rotate:90
+back items/BaseballBat
+bounds:1688,658,238,266
+back items/Hiking backpack/Bag
+bounds:1333,217,190,232
+back items/guitar/Guitar
+bounds:1096,798,289,335
+offsets:45,38,405,381
+back items/guitar/Strip
+bounds:675,9,200,224
+baseSkin/upperBody
+bounds:1577,4,174,242
+offsets:36,25,278,267
+blue/upperBody
+bounds:1577,4,174,242
+offsets:36,25,278,267
+fullBody/capeOuter
+bounds:2,698,427,435
+fullBody/upperBody
+bounds:1753,4,173,242
+offsets:37,25,278,267
+holdingItems/Sceptre
+bounds:877,3,219,229

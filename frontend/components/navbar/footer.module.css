@@ -3,4 +3,28 @@
     height: 80px;
     text-align: center;
     line-height: 80px;
+    background: linear-gradient(180deg, #8700C7 0%, #420084 100%);
+
+
+}
+
+.footerText {
+    font-family: 'Lilita One';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 80px;
+    text-align: center;
+    background: linear-gradient(180deg, #FFC700 0%, #FF9900 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+    margin: 0;
+}
+
+@media (max-width: 1000px) {
+    .container{
+        display: none;
+    }
 }
